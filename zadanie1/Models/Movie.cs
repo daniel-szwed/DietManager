@@ -21,9 +21,10 @@ namespace zadanie1.Models
         {
             get { return _website; }
             set {
-                var regex = new Regex(@"$http://imdb.com/*");
-                if (regex.IsMatch(value))
-                    _website = value;
+                var url = value.ToLower();
+                var regex = new Regex(@"$http://imdb.com/|imdb.com|http://www.imdb.com/|www.imdb.com/*");
+                if (regex.IsMatch(url))
+                    _website = url;
                 else
                     throw new ArgumentException("Podany adres nie jest poprawną stroną internetową z domeny Imdb.com");
             }

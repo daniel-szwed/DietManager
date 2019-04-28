@@ -36,31 +36,28 @@ namespace zadanie1
             /**
              * Ćwiczenia 2
              */
-            
+
             int childAgeInt;
             string childAgeString = string.Empty;
 
-            while(!GetAgeLimit(childAgeString, out childAgeInt))
+            while (!GetAgeLimit(childAgeString, out childAgeInt))
             {
                 Console.WriteLine("Podaj wiek dziecka:");
                 childAgeString = Console.ReadLine();
             }
 
-            if(GetAgeLimit(childAgeString, out childAgeInt))
+            var movies4children = movies.Where(m => m.AgeLimit <= childAgeInt).Select(m => m.Name).ToList();
+            movies4children.ForEach(m =>
             {
-                var movies4children = movies.Where(m => m.AgeLimit <= childAgeInt).Select(m => m.Name).ToList();
-                movies4children.ForEach(m =>
-                {
-                    Console.WriteLine(m.ToString());
-                });
-                var moviesJson = JsonConvert.SerializeObject(movies4children);
-                using (StreamWriter writer = new StreamWriter("movies.txt"))
-                {
-                    writer.WriteLine(moviesJson);
-                }
+                Console.WriteLine(m.ToString());
+            });
+            var moviesJson = JsonConvert.SerializeObject(movies4children);
+            using (StreamWriter writer = new StreamWriter("movies.txt"))
+            {
+                writer.WriteLine(moviesJson);
             }
 
-            using(StreamReader reader = new StreamReader("noweFilmy.txt"))
+            using (StreamReader reader = new StreamReader("noweFilmy.txt"))
             {
                 movies.AddRange(JsonConvert.DeserializeObject<List<Movie>>(reader.ReadToEnd()));
             }
