@@ -56,6 +56,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Controls\FloatInput.xaml.cs">
+      <DependentUpon>FloatInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DefaultMultiValueConverter.cs" />
+    <Compile Include="Converters\FloatConverter.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="ViewModels\IngredientViewModel.cs" />
@@ -70,6 +75,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Controls\FloatInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\IngredientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

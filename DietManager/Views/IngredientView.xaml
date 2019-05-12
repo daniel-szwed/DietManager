@@ -5,19 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DietManager.Views"
         xmlns:viewmodels="clr-namespace:DietManager.ViewModels"
+        xmlns:custom="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
-        Title="IngredientView" Height="450" Width="800"
-        DataContext="{StaticResource IngredientViewModel}">
-    <Grid>
+        Title="IngredientView" Height="450" Width="900">
+    <Window.DataContext>
+        <viewmodels:IngredientViewModel/>
+    </Window.DataContext>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Kcal" Binding="{Binding Kcal}"/>
+                <DataGridTextColumn Header="Białko" Binding="{Binding Protein}"/>
+                <DataGridTextColumn Header="Węglowodany" Binding="{Binding Carbohydrates}"/>
+                <DataGridTextColumn Header="w tym cukry" Binding="{Binding Sugar}"/>
+                <DataGridTextColumn Header="Tłuszcze" Binding="{Binding Fat}"/>
+                <DataGridTextColumn Header="w tym nasycone &#x0a; kwasy tłuszczowe" Binding="{Binding Saturated}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <Label Width="110" Content="Nazwa"></Label>
+                <TextBox Width="180" Name="newIngrName"></TextBox>
+            </StackPanel>
+            <custom:FloatInput Label="Kcal" x:Name="newIngrKcal"/>
+            <custom:FloatInput Label="Białko" x:Name="newIngrProt"/>
+            <custom:FloatInput Label="Węglowodany" x:Name="newIngrCarb"/>
+            <custom:FloatInput Label="w tym cukry" x:Name="newIngrSugar"/>
+            <custom:FloatInput Label="Tłuszcze" x:Name="newIngrFat"/>
+            <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" x:Name="newIngrSat"/>
+            <Button Content="Dodaj składnik" Command="{Binding AddIngredient}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                        <Binding Path="Text" ElementName="newIngrName"/>
+                        <Binding Path="Text" ElementName="newIngrKcal"/>
+                        <Binding Path="Text" ElementName="newIngrProt"/>
+                        <Binding Path="Text" ElementName="newIngrCarb"/>
+                        <Binding Path="Text" ElementName="newIngrSugar"/>
+                        <Binding Path="Text" ElementName="newIngrFat"/>
+                        <Binding Path="Text" ElementName="newIngrSat"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

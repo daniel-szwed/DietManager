@@ -5,15 +5,15 @@ namespace DietManager.Commands
 {
     public class Command : ICommand
     {
-        Action _TargetExecuteMethod;
-        Func<bool> _TargetCanExecuteMethod;
+        Action<object> _TargetExecuteMethod;
+        Func<object, bool> _TargetCanExecuteMethod;
 
-        public Command(Action executeMethod)
+        public Command(Action<object> executeMethod)
         {
             _TargetExecuteMethod = executeMethod;
         }
 
-        public Command(Action executeMethod, Func<bool> canExecuteMethod)
+        public Command(Action<object> executeMethod, Func<object, bool> canExecuteMethod)
         {
             _TargetExecuteMethod = executeMethod;
             _TargetCanExecuteMethod = canExecuteMethod;
@@ -29,7 +29,7 @@ namespace DietManager.Commands
 
             if (_TargetCanExecuteMethod != null)
             {
-                return _TargetCanExecuteMethod();
+                return _TargetCanExecuteMethod(parameter);
             }
 
             if (_TargetExecuteMethod != null)
@@ -47,7 +47,7 @@ namespace DietManager.Commands
 
         void ICommand.Execute(object parameter)
         {
-            _TargetExecuteMethod?.Invoke();
+            _TargetExecuteMethod?.Invoke(parameter);
         }
     }
 }

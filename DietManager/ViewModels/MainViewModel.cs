@@ -17,7 +17,7 @@ namespace DietManager.ViewModels
             ManageIngredients = new Command(OnManageIngredients);
         }
 
-        private void OnManageIngredients()
+        private void OnManageIngredients(object p)
         {
             var window = new IngredientView();
             window.Show();
