@@ -8,9 +8,9 @@
         xmlns:custom="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
         Title="IngredientView" Height="450" Width="900">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewmodels:IngredientViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -34,14 +34,14 @@
         <StackPanel Grid.Column="1" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Label Width="110" Content="Nazwa"></Label>
-                <TextBox Width="180" Name="newIngrName"></TextBox>
+                <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
             </StackPanel>
-            <custom:FloatInput Label="Kcal" x:Name="newIngrKcal"/>
-            <custom:FloatInput Label="Białko" x:Name="newIngrProt"/>
-            <custom:FloatInput Label="Węglowodany" x:Name="newIngrCarb"/>
-            <custom:FloatInput Label="w tym cukry" x:Name="newIngrSugar"/>
-            <custom:FloatInput Label="Tłuszcze" x:Name="newIngrFat"/>
-            <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" x:Name="newIngrSat"/>
+            <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
+            <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
+            <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
+            <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
+            <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
+            <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
             <Button Content="Dodaj składnik" Command="{Binding AddIngredient}">
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">

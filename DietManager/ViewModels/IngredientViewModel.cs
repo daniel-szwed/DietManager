@@ -1,31 +1,23 @@
 ﻿using DietManager.Commands;
 using DietManager.Models;
+using DietManager.Repositories;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DietManager.ViewModels
 {
-    public class IngredientViewModel
+    public class IngredientViewModel : IIngredientViewModel
     {
+        private IIngredientRepository _ingredientRepository;
+
         public Command AddIngredient { get; }
         public ObservableCollection<Ingredient> Ingredients { get; set; }
-        public IngredientViewModel()
+        public IngredientViewModel(IIngredientRepository ingredientRepository)
         {
-            AddIngredient = new Command(OnAddIngredient, CanAddIngredient);
-            Ingredients = new ObservableCollection<Ingredient>()
-            {
-                new Ingredient() {Name = "test0", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test1", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test2", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test3", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test4", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test5", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test6", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test7", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test8", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-                new Ingredient() {Name = "test9", Kcal = 333f, Protein = 28f, Carbohydrates = 16f, Sugar = 6f, Fat = 12f, Saturated = 6f },
-            };
+            _ingredientRepository = ingredientRepository;
+            AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
+            Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
         }
 
         public bool CanAddIngredient(object parameters)
@@ -45,7 +37,7 @@ namespace DietManager.ViewModels
             return true;
         }
 
-        private void OnAddIngredient(object parameters)
+        private async void OnAddIngredientAsync(object parameters)
         {
             object[] res = parameters as object[];
             var ingredient = new Ingredient()
@@ -58,7 +50,9 @@ namespace DietManager.ViewModels
                 Fat = float.Parse(res[5].ToString()),
                 Saturated = float.Parse(res[6].ToString())
             };
-            Ingredients.Add(ingredient);
+            var result = await _ingredientRepository.AddIngredientAsync(ingredient);
+            if(result == 1)
+                Ingredients.Add(ingredient);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DietManager.Models
 {
@@ -12,6 +13,7 @@ namespace DietManager.Models
         private float _fat;
         private float _saturated;
 
+        [Key]
         public int Id { get; set; }
 
         public string Name
