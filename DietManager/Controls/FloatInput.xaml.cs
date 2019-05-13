@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DietManager.Controls
 {
@@ -32,8 +33,17 @@ namespace DietManager.Controls
 
         private void CustomTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            var text = sender as TextBox;
-            text?.SelectAll();
+            var textBox = sender as TextBox;
+            textBox?.SelectAll();
+        }
+
+        private void CustomTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (!(e.Key == Key.Decimal || e.Key == Key.OemComma))
+                return;
+            var textBox = sender as TextBox;
+            textBox.Text = textBox.Text.Replace(',','.');
+            textBox.CaretIndex = textBox.Text.Length;
         }
     }
 }

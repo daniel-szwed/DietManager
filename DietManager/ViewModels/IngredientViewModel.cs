@@ -21,11 +21,11 @@ namespace DietManager.ViewModels
             _ingredientRepository = ingredientRepository;
             Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
             AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
-            UpdateIngredient = new Command(OnUpdateIngredientAsync, CanUpdateIngredient);
-            RemoveIngredient = new Command(OnRemoveIngredientAsync);
+            UpdateIngredient = new Command(OnUpdateIngredientAsync, CanEditIngredient);
+            RemoveIngredient = new Command(OnRemoveIngredientAsync, CanEditIngredient);
         }
 
-        private bool CanUpdateIngredient(object arg)
+        private bool CanEditIngredient(object arg)
         {
             var ingredient = arg as Ingredient;
             return arg is Ingredient;
@@ -34,9 +34,8 @@ namespace DietManager.ViewModels
         private async void OnRemoveIngredientAsync(object obj)
         {
             var ingredient = obj as Ingredient;
+            Ingredients.Remove(ingredient);
             var result = await _ingredientRepository.RemoveAsync(ingredient);
-            if (result == 1)
-                Ingredients.Remove(ingredient);
         }
 
         private async void OnUpdateIngredientAsync(object obj)

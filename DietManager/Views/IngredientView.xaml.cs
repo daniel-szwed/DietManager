@@ -19,6 +19,7 @@ namespace DietManager.Views
         private void IngredientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ((IIngredientViewModel)DataContext).UpdateIngredient.RaiseCanExecuteChanged();
+            ((IIngredientViewModel)DataContext).RemoveIngredient.RaiseCanExecuteChanged();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using DietManager.Models;
@@ -51,7 +51,14 @@ namespace DietManager.Repositories
             using (var context = new AppDbContext())
             {
                 context.Entry(ingredient).State = EntityState.Modified;
-                return context.SaveChanges();
+                try
+                {
+                    return context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return -1;
+                }
             }
         }
 
@@ -65,7 +72,14 @@ namespace DietManager.Repositories
             using (var context = new AppDbContext())
             {
                 context.Entry(ingredient).State = EntityState.Deleted;
-                return context.SaveChanges();
+                try
+                {
+                    return context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return -1;
+                }
             }
         }
     }

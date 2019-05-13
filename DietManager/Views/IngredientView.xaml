@@ -68,39 +68,37 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Nowy">
-                <Grid Background="#FFE5E5E5">
-                    <StackPanel Grid.Column="1" Grid.Row="0">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Width="110" Content="Nazwa"></Label>
-                            <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
-                        </StackPanel>
-                        <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
-                        <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
-                        <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
-                        <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
-                        <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
-                        <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
-                        <Button Background="ForestGreen" Foreground="White"
-                            Command="{Binding AddIngredient}">
-                            <TextBlock>
-                                <Bold>
-                                    Dodaj
-                                </Bold>
-                            </TextBlock>
-                            <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
-                                    <Binding Path="Text" ElementName="newIngrName"/>
-                                    <Binding Path="Text" ElementName="newIngrKcal"/>
-                                    <Binding Path="Text" ElementName="newIngrProt"/>
-                                    <Binding Path="Text" ElementName="newIngrCarb"/>
-                                    <Binding Path="Text" ElementName="newIngrSugar"/>
-                                    <Binding Path="Text" ElementName="newIngrFat"/>
-                                    <Binding Path="Text" ElementName="newIngrSat"/>
-                                </MultiBinding>
-                            </Button.CommandParameter>
-                        </Button>
+                <StackPanel Grid.Column="1" Grid.Row="0">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="110" Content="Nazwa"></Label>
+                        <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
                     </StackPanel>
-                </Grid>
+                    <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
+                    <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
+                    <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
+                    <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
+                    <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
+                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
+                    <Button Background="ForestGreen" Foreground="White"
+                        Command="{Binding AddIngredient}">
+                        <TextBlock>
+                            <Bold>
+                                Dodaj
+                            </Bold>
+                        </TextBlock>
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                                <Binding Path="Text" ElementName="newIngrName"/>
+                                <Binding Path="Text" ElementName="newIngrKcal"/>
+                                <Binding Path="Text" ElementName="newIngrProt"/>
+                                <Binding Path="Text" ElementName="newIngrCarb"/>
+                                <Binding Path="Text" ElementName="newIngrSugar"/>
+                                <Binding Path="Text" ElementName="newIngrFat"/>
+                                <Binding Path="Text" ElementName="newIngrSat"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
             </TabItem>
         </TabControl>
 

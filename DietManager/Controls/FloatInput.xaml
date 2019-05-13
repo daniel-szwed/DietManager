@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal">
             <Label Width="110" Content="{Binding ElementName=TextBoxCustom, Path=Label}"></Label>
-            <TextBox Width="180" Text="{Binding ElementName=TextBoxCustom, Path=Text}" Name="customTextBox" GotFocus="CustomTextBox_GotFocus">
+            <TextBox Width="180" Text="{Binding ElementName=TextBoxCustom, Path=Text}" Name="customTextBox" GotFocus="CustomTextBox_GotFocus" KeyUp="CustomTextBox_KeyUp">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="BorderBrush" Value="Gray"/>
