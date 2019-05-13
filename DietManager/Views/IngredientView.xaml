@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:DietManager.ViewModels"
         xmlns:custom="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
-        Title="IngredientView" Height="450" Width="900">
+        Title="IngredientView" Height="500" Width="900">
     <!--<Window.DataContext>
         <viewmodels:IngredientViewModel/>
     </Window.DataContext>-->
@@ -20,7 +20,8 @@
             <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="6*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False">
+        <DataGrid Name="IngredientDataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False"
+                  SelectionChanged="IngredientDataGrid_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Kcal" Binding="{Binding Kcal}"/>
@@ -31,30 +32,80 @@
                 <DataGridTextColumn Header="w tym nasycone &#x0a; kwasy tłuszczowe" Binding="{Binding Saturated}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Label Width="110" Content="Nazwa"></Label>
-                <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
-            </StackPanel>
-            <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
-            <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
-            <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
-            <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
-            <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
-            <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
-            <Button Content="Dodaj składnik" Command="{Binding AddIngredient}">
-                <Button.CommandParameter>
-                    <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
-                        <Binding Path="Text" ElementName="newIngrName"/>
-                        <Binding Path="Text" ElementName="newIngrKcal"/>
-                        <Binding Path="Text" ElementName="newIngrProt"/>
-                        <Binding Path="Text" ElementName="newIngrCarb"/>
-                        <Binding Path="Text" ElementName="newIngrSugar"/>
-                        <Binding Path="Text" ElementName="newIngrFat"/>
-                        <Binding Path="Text" ElementName="newIngrSat"/>
-                    </MultiBinding>
-                </Button.CommandParameter>
-            </Button>
-        </StackPanel>
+        <TabControl Grid.Column="1" >
+            <TabItem Header="Edycja">
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="110" Content="Nazwa"></Label>
+                        <TextBox Width="180" Name="currentIngrName" Text="{Binding SelectedItem.Name, ElementName=IngredientDataGrid}" ></TextBox>
+                    </StackPanel>
+                    <custom:FloatInput Label="Kcal" Text="{Binding SelectedItem.Kcal, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrKcal"/>
+                    <custom:FloatInput Label="Białko" Text="{Binding SelectedItem.Protein, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrProt"/>
+                    <custom:FloatInput Label="Węglowodany" Text="{Binding SelectedItem.Carbohydrates, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrCarb"/>
+                    <custom:FloatInput Label="w tym cukry" Text="{Binding SelectedItem.Sugar, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrSugar"/>
+                    <custom:FloatInput Label="Tłuszcze" Text="{Binding SelectedItem.Fat, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentngrFat"/>
+                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding SelectedItem.Saturated, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrSat"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="150" Background="IndianRed" Foreground="White"
+                        Command="{Binding RemoveIngredient}"
+                        CommandParameter="{Binding SelectedItem, ElementName=IngredientDataGrid}">
+                            <TextBlock>
+                                <Bold>
+                                    Usuń
+                                </Bold>
+                            </TextBlock>
+                        </Button>
+                        <Button Width="150" Background="ForestGreen" Foreground="White"
+                        Command="{Binding UpdateIngredient}"
+                        CommandParameter="{Binding SelectedItem, ElementName=IngredientDataGrid}">
+                            <TextBlock>
+                                <Bold>
+                                    Aktualizuj
+                                </Bold>
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Nowy">
+                <Grid Background="#FFE5E5E5">
+                    <StackPanel Grid.Column="1" Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="110" Content="Nazwa"></Label>
+                            <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
+                        </StackPanel>
+                        <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
+                        <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
+                        <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
+                        <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
+                        <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
+                        <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
+                        <Button Background="ForestGreen" Foreground="White"
+                            Command="{Binding AddIngredient}">
+                            <TextBlock>
+                                <Bold>
+                                    Dodaj
+                                </Bold>
+                            </TextBlock>
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                                    <Binding Path="Text" ElementName="newIngrName"/>
+                                    <Binding Path="Text" ElementName="newIngrKcal"/>
+                                    <Binding Path="Text" ElementName="newIngrProt"/>
+                                    <Binding Path="Text" ElementName="newIngrCarb"/>
+                                    <Binding Path="Text" ElementName="newIngrSugar"/>
+                                    <Binding Path="Text" ElementName="newIngrFat"/>
+                                    <Binding Path="Text" ElementName="newIngrSat"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        
+        
+
     </Grid>
 </Window>

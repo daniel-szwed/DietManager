@@ -10,14 +10,39 @@ namespace DietManager.ViewModels
     public class IngredientViewModel : IIngredientViewModel
     {
         private IIngredientRepository _ingredientRepository;
+        public ObservableCollection<Ingredient> Ingredients { get; set; }
 
         public Command AddIngredient { get; }
-        public ObservableCollection<Ingredient> Ingredients { get; set; }
+        public Command UpdateIngredient { get; }
+        public Command RemoveIngredient { get; }
+
         public IngredientViewModel(IIngredientRepository ingredientRepository)
         {
             _ingredientRepository = ingredientRepository;
-            AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
             Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
+            AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
+            UpdateIngredient = new Command(OnUpdateIngredientAsync, CanUpdateIngredient);
+            RemoveIngredient = new Command(OnRemoveIngredientAsync);
+        }
+
+        private bool CanUpdateIngredient(object arg)
+        {
+            var ingredient = arg as Ingredient;
+            return arg is Ingredient;
+        }
+
+        private async void OnRemoveIngredientAsync(object obj)
+        {
+            var ingredient = obj as Ingredient;
+            var result = await _ingredientRepository.RemoveAsync(ingredient);
+            if (result == 1)
+                Ingredients.Remove(ingredient);
+        }
+
+        private async void OnUpdateIngredientAsync(object obj)
+        {
+            var ingredient = obj as Ingredient;
+            var result = await _ingredientRepository.UpdateAsync(ingredient);
         }
 
         public bool CanAddIngredient(object parameters)
@@ -50,7 +75,7 @@ namespace DietManager.ViewModels
                 Fat = float.Parse(res[5].ToString()),
                 Saturated = float.Parse(res[6].ToString())
             };
-            var result = await _ingredientRepository.AddIngredientAsync(ingredient);
+            var result = await _ingredientRepository.AddAsync(ingredient);
             if(result == 1)
                 Ingredients.Add(ingredient);
         }

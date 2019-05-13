@@ -7,6 +7,8 @@ namespace DietManager.Repositories
     public interface IIngredientRepository
     {
         Task<IEnumerable<Ingredient>> GetAllAsync();
-        Task<int> AddIngredientAsync(Ingredient ingredient);
+        Task<int> AddAsync(Ingredient ingredient);
+        Task<int> UpdateAsync(Ingredient ingredient);
+        Task<int> RemoveAsync(Ingredient ingredient);
     }
 }
