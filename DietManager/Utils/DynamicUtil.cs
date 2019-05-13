@@ -14,8 +14,9 @@ namespace DietManager.Utils
         /// <param name="model">Model instance to update</param>
         /// <param name="body">Dynamic contains some properties</param>
         /// <param name="exclude">Comma split property names to be exclude from mapping</param>
+        /// <param name="mapping">Key - model property name; Value - body property name</param>
         /// <returns>Property names which were updated</returns>
-        public static List<string> UpdateModel(object model, dynamic body, string exclude = null)
+        public static List<string> UpdateModel(object model, dynamic body, string exclude = null, Dictionary<string, string> mapping = null)
         {
             var updated = new List<string>();
             foreach (var propertyInfo in model.GetType().GetProperties())
@@ -23,9 +24,20 @@ namespace DietManager.Utils
                 var propName = propertyInfo.Name.ToLower();
                 if (exclude != null && exclude.Split(',').ToList().Contains(propName))
                     continue;
-                if (HasProperty(body, propName))
+                string bodyPropertyName;
+                if (mapping != null)
                 {
-                    var stringValue = ((JObject)body).GetValue(propName).ToString();
+                    if (!mapping.TryGetValue(propName, out bodyPropertyName))
+                        continue;
+                }
+                else
+                    bodyPropertyName = propName;
+                if (HasProperty(body, bodyPropertyName))
+                {
+                    var value = ((JObject)body).GetValue(bodyPropertyName);
+                    if (value.Type == JTokenType.Null)
+                        continue;
+                    string stringValue = value.ToString();
                     if (propertyInfo.PropertyType.GetInterfaces().Contains(typeof(IConvertible)))
                         propertyInfo.SetValue(model, Convert.ChangeType(stringValue, propertyInfo.PropertyType));
                     else

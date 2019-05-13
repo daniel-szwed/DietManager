@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DietManager.Views"
+        xmlns:custom="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
         Title="NutritionFacts" Height="450" Width="800">
     <Grid>
@@ -16,7 +17,17 @@
                     <Bold>Search</Bold>
                 </TextBlock>
             </Button>
-            <TextBlock Name="Result" Height="200" Text="{Binding Response}"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="110" Content="Nazwa"></Label>
+                <TextBox Width="180" Name="currentIngrName" Text="{Binding Ingredient.Name}" ></TextBox>
+            </StackPanel>
+            <custom:FloatInput Label="Kcal" Text="{Binding Ingredient.Kcal}" x:Name="currentIngrKcal"/>
+            <custom:FloatInput Label="Białko" Text="{Binding Ingredient.Protein}" x:Name="currentIngrProt"/>
+            <custom:FloatInput Label="Węglowodany" Text="{Binding Ingredient.Carbohydrates}" x:Name="currentIngrCarb"/>
+            <custom:FloatInput Label="w tym cukry" Text="{Binding Ingredient.Sugar}" x:Name="currentIngrSugar"/>
+            <custom:FloatInput Label="Tłuszcze" Text="{Binding Ingredient.Fat}" x:Name="currentngrFat"/>
+            <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding Ingredient.Saturated}" x:Name="currentIngrSat"/>
+
         </StackPanel>
         
     </Grid>
