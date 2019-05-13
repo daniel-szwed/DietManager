@@ -13,7 +13,7 @@ namespace DietManager.Views
         public IngredientView()
         {
             InitializeComponent();
-            DataContext = ((App)Application.Current).Container.Resolve(typeof(IIngredientViewModel), "test");
+            DataContext = ((App)Application.Current).Container.Resolve(typeof(IIngredientViewModel), "IngredientViewModel");
         }
 
         private void IngredientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

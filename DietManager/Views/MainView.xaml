@@ -20,8 +20,9 @@
                     <Separator />
                     <MenuItem Header="Exit" />
                 </MenuItem>
-                <MenuItem Header="Manage">
-                    <MenuItem Header="Ingredients" Command="{Binding ManageIngredients}" />
+                <MenuItem Header="Ingredients">
+                    <MenuItem Header="Manage" Command="{Binding ManageIngredients}" />
+                    <MenuItem Header="Online resources" Command="{Binding NutritionFacts}" />
                 </MenuItem>
             </Menu>
             <ListBox>

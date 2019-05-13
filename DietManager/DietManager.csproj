@@ -56,6 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -103,10 +106,15 @@
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Repositories\IIngredientRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
+    <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\AppDbContext.cs" />
+    <Compile Include="Services\IApiService.cs" />
+    <Compile Include="Utils\DynamicUtil.cs" />
     <Compile Include="ViewModels\IIngredientViewModel.cs" />
     <Compile Include="ViewModels\IngredientViewModel.cs" />
+    <Compile Include="ViewModels\INutritionFactsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\NutritionFactsViewModel.cs" />
     <Compile Include="Views\IngredientView.xaml.cs">
       <DependentUpon>IngredientView.xaml</DependentUpon>
     </Compile>
@@ -117,6 +125,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\NutritionFacts.xaml.cs">
+      <DependentUpon>NutritionFacts.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\FloatInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NutritionFacts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
