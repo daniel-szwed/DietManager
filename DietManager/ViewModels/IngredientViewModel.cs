@@ -34,6 +34,7 @@ namespace DietManager.ViewModels
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
             Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
+            Ingredient = new Ingredient() { Name = "nazwa", Kcal = 0, Protein = 0, Carbohydrates = 0, Sugar = 0, Fat = 0, Saturated = 0 };
             AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
             UpdateIngredient = new Command(OnUpdateIngredientAsync, CanEditIngredient);
             RemoveIngredient = new Command(OnRemoveIngredientAsync, CanEditIngredient);

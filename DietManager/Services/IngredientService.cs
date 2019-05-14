@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,8 @@ namespace DietManager.Services
                 {
                     float currentValue = (float)propertyInfo.GetValue(ingredient);
                     float newValue = currentValue * (100f / (float)serving_weight_grams);
-                    propertyInfo.SetValue(ingredient, newValue);
+                    var rounded = Math.Round(newValue, 2);
+                    propertyInfo.SetValue(ingredient, (float)rounded);
                 }
             }
         }
