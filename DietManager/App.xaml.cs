@@ -20,8 +20,8 @@ namespace DietManager
             Container = new UnityContainer();
             Container.RegisterType<IApiService, ApiService>();
             Container.RegisterType<IIngredientRepository, IngredientRepository>();
+            Container.RegisterType<IIngredientService, IngredientService>();
             Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
-            Container.RegisterType<INutritionFactsViewModel, NutritionFactsViewModel>("NutritionFactsViewModel");
             Container.Resolve<MainView>().Show();
             //Do the same actions for  all views and their viewmodels
         }

@@ -22,7 +22,6 @@
                 </MenuItem>
                 <MenuItem Header="Ingredients">
                     <MenuItem Header="Manage" Command="{Binding ManageIngredients}" />
-                    <MenuItem Header="Online resources" Command="{Binding NutritionFacts}" />
                 </MenuItem>
             </Menu>
             <ListBox>

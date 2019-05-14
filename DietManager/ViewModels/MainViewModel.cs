@@ -11,18 +11,10 @@ namespace DietManager.ViewModels
     public class MainViewModel
     {
         public Command ManageIngredients { get; }
-        public Command NutritionFacts { get; }
 
         public MainViewModel()
         {
             ManageIngredients = new Command(OnManageIngredients);
-            NutritionFacts = new Command(OnNutritionFacts);
-        }
-
-        private void OnNutritionFacts(object obj)
-        {
-            var window = new NutritionFacts();
-            window.Show();
         }
 
         private void OnManageIngredients(object p)

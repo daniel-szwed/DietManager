@@ -6,19 +6,20 @@
         xmlns:local="clr-namespace:DietManager.Views"
         xmlns:viewmodels="clr-namespace:DietManager.ViewModels"
         xmlns:custom="clr-namespace:DietManager.Controls"
+        xmlns:properties="clr-namespace:DietManager.Properties"
         mc:Ignorable="d"
         Title="IngredientView" Height="500" Width="900">
-    <!--<Window.DataContext>
-        <viewmodels:IngredientViewModel/>
-    </Window.DataContext>-->
-    <Grid >
+    <Window.Resources>
+        <BitmapImage x:Key="searchImg" UriSource="/DietManager;component/Resources/search.png"/>
+    </Window.Resources>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="7*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
         <DataGrid Name="IngredientDataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False"
                   SelectionChanged="IngredientDataGrid_SelectionChanged" >
@@ -71,14 +72,14 @@
                 <StackPanel Grid.Column="1" Grid.Row="0">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="110" Content="Nazwa"></Label>
-                        <TextBox Width="180" Name="newIngrName" Text="nazwa" ></TextBox>
+                        <TextBox Width="180" Name="newIngrName" Text="{Binding Ingredient.Name}" ></TextBox>
                     </StackPanel>
-                    <custom:FloatInput Label="Kcal" Text="0" x:Name="newIngrKcal"/>
-                    <custom:FloatInput Label="Białko" Text="0" x:Name="newIngrProt"/>
-                    <custom:FloatInput Label="Węglowodany" Text="0" x:Name="newIngrCarb"/>
-                    <custom:FloatInput Label="w tym cukry" Text="0" x:Name="newIngrSugar"/>
-                    <custom:FloatInput Label="Tłuszcze" Text="0" x:Name="newIngrFat"/>
-                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="0" x:Name="newIngrSat"/>
+                    <custom:FloatInput Label="Kcal" Text="{Binding Ingredient.Kcal}" x:Name="newIngrKcal"/>
+                    <custom:FloatInput Label="Białko" Text="{Binding Ingredient.Protein}" x:Name="newIngrProt"/>
+                    <custom:FloatInput Label="Węglowodany" Text="{Binding Ingredient.Carbohydrates}" x:Name="newIngrCarb"/>
+                    <custom:FloatInput Label="w tym cukry" Text="{Binding Ingredient.Sugar}" x:Name="newIngrSugar"/>
+                    <custom:FloatInput Label="Tłuszcze" Text="{Binding Ingredient.Fat}" x:Name="newIngrFat"/>
+                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding Ingredient.Saturated}" x:Name="newIngrSat"/>
                     <Button Background="ForestGreen" Foreground="White"
                         Command="{Binding AddIngredient}">
                         <TextBlock>
@@ -98,12 +99,18 @@
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
+
+                    <StackPanel Orientation="Horizontal" Margin="5,10,5,10">
+                        <Label>Znajdź</Label>
+                        <TextBox Name="SearchInput" Width="200"></TextBox>
+                        <Button Name="SearchButton" Width="26" Command="{Binding SearchIngredient}"
+                        CommandParameter="{Binding Text, ElementName=SearchInput}">
+                            <Image Source="{StaticResource ResourceKey=searchImg}" Width="20"/>
+                        </Button>
+                    </StackPanel>
+
                 </StackPanel>
             </TabItem>
         </TabControl>
-
-        
-        
-
     </Grid>
 </Window>

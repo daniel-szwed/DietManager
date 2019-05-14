@@ -1,51 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using DietManager.Commands;
+using System.Threading.Tasks;
 using DietManager.Models;
-using DietManager.Services;
 using DietManager.Utils;
 using Newtonsoft.Json;
 
-namespace DietManager.ViewModels
+namespace DietManager.Services
 {
-    public class NutritionFactsViewModel : INutritionFactsViewModel, INotifyPropertyChanged
+    public class IngredientService : IIngredientService
     {
-        private string _response;
-        private Ingredient _ingredient;
-        public Command GetNutritionFacts { get; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Response
+        public async Task<Ingredient> SearchIngredientAsync(string name)
         {
-            get { return _response; }
-            set { _response = value; NotifyPropertyChanged(nameof(Response)); }
-        }
-
-        public Ingredient Ingredient
-        {
-            get { return _ingredient; }
-            set { _ingredient = value; NotifyPropertyChanged(nameof(Ingredient)); }
-        }
-        
-        public NutritionFactsViewModel()
-        {
-            GetNutritionFacts = new Command(OnGetNutritionFacts);
-        }
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private async void OnGetNutritionFacts(object obj)
-        {
-            var query = obj as string;
-            using(var client = new ApiService())
+            using (var client = new ApiService())
             {
-                var body = new { query, timezone = "US/Eastern" };
+                var body = new { query = name, timezone = "US/Eastern" };
                 var response = await client
                             .SetBaseAddress("https://trackapi.nutritionix.com")
                             .SetMethod(HttpMethod.Post)
@@ -55,7 +25,7 @@ namespace DietManager.ViewModels
                             .SetTimeout(15000)
                             .SendRequestAsync("v2/natural/nutrients");
                 dynamic responseBody = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-                if(DynamicUtil.HasProperty(responseBody, "foods"))
+                if (DynamicUtil.HasProperty(responseBody, "foods"))
                 {
                     var foods = responseBody.foods[0];
                     var ingredient = new Ingredient();
@@ -70,8 +40,10 @@ namespace DietManager.ViewModels
                     DynamicUtil.UpdateModel(ingredient, foods, null, mapping);
                     var serving_weight_grams = (long)foods.serving_weight_grams.Value;
                     Recalc(ingredient, serving_weight_grams);
-                    Ingredient = ingredient;
+                    return ingredient;
                 }
+                else
+                    return null;
             }
         }
 
@@ -83,7 +55,7 @@ namespace DietManager.ViewModels
                 {
                     float currentValue = (float)propertyInfo.GetValue(ingredient);
                     float newValue = currentValue * (100f / (float)serving_weight_grams);
-                    propertyInfo.SetValue(ingredient,  newValue);
+                    propertyInfo.SetValue(ingredient, newValue);
                 }
             }
         }
