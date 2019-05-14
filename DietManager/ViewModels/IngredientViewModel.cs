@@ -20,7 +20,7 @@ namespace DietManager.ViewModels
         public Ingredient Ingredient
         {
             get { return _ingredietn; }
-            set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); }
+            set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); AddIngredient?.RaiseCanExecuteChanged(); }
         }
         
         public Command AddIngredient { get; }

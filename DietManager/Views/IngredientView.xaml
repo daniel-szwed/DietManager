@@ -72,14 +72,14 @@
                 <StackPanel Grid.Column="1" Grid.Row="0">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="110" Content="Nazwa"></Label>
-                        <TextBox Width="180" Name="newIngrName" Text="{Binding Ingredient.Name}" ></TextBox>
+                        <TextBox Width="180" Name="newIngrName" Text="{Binding Ingredient.Name, Mode=TwoWay}" ></TextBox>
                     </StackPanel>
-                    <custom:FloatInput Label="Kcal" Text="{Binding Ingredient.Kcal}" x:Name="newIngrKcal"/>
-                    <custom:FloatInput Label="Białko" Text="{Binding Ingredient.Protein}" x:Name="newIngrProt"/>
-                    <custom:FloatInput Label="Węglowodany" Text="{Binding Ingredient.Carbohydrates}" x:Name="newIngrCarb"/>
-                    <custom:FloatInput Label="w tym cukry" Text="{Binding Ingredient.Sugar}" x:Name="newIngrSugar"/>
-                    <custom:FloatInput Label="Tłuszcze" Text="{Binding Ingredient.Fat}" x:Name="newIngrFat"/>
-                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding Ingredient.Saturated}" x:Name="newIngrSat"/>
+                    <custom:FloatInput Label="Kcal" Text="{Binding Ingredient.Kcal, Mode=TwoWay}" x:Name="newIngrKcal"/>
+                    <custom:FloatInput Label="Białko" Text="{Binding Ingredient.Protein, Mode=TwoWay}" x:Name="newIngrProt"/>
+                    <custom:FloatInput Label="Węglowodany" Text="{Binding Ingredient.Carbohydrates, Mode=TwoWay}" x:Name="newIngrCarb"/>
+                    <custom:FloatInput Label="w tym cukry" Text="{Binding Ingredient.Sugar, Mode=TwoWay}" x:Name="newIngrSugar"/>
+                    <custom:FloatInput Label="Tłuszcze" Text="{Binding Ingredient.Fat, Mode=TwoWay}" x:Name="newIngrFat"/>
+                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding Ingredient.Saturated, Mode=TwoWay}" x:Name="newIngrSat"/>
                     <Button Background="ForestGreen" Foreground="White"
                         Command="{Binding AddIngredient}">
                         <TextBlock>
