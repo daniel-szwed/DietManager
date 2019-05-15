@@ -104,6 +104,10 @@
     <Compile Include="Converters\FloatConverter.cs" />
     <Compile Include="DataLayer\AppDbContext.cs" />
     <Compile Include="DataLayer\DbSession.cs" />
+    <Compile Include="Migrations\201905151448459_InitMigration.cs" />
+    <Compile Include="Migrations\201905151448459_InitMigration.Designer.cs">
+      <DependentUpon>201905151448459_InitMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\BindableBase.cs" />
@@ -162,6 +166,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201905151448459_InitMigration.resx">
+      <DependentUpon>201905151448459_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
