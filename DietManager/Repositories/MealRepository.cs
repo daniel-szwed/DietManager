@@ -8,45 +8,45 @@ using DietManager.Services;
 
 namespace DietManager.Repositories
 {
-    public class IngredientRepository : IIngredientRepository
+    public class MealRepository : IMealRepository
     {
-        public Task<int> AddAsync(Ingredient ingredient)
+        public Task<int> AddAsync(Meal meal)
         {
-            return Task.Run(() => Add(ingredient));
+            return Task.Run(() => Add(meal));
         }
 
-        private int Add(Ingredient ingredient)
+        private int Add(Meal meal)
         {
             using (var context = new AppDbContext())
             {
-                context.Ingredients.Add(ingredient);
+                context.Meals.Add(meal);
                 return context.SaveChanges();
             }
         }
 
-        public Task<IEnumerable<Ingredient>> GetAllAsync()
+        public Task<IEnumerable<Meal>> GetAllAsync()
         {
             return Task.Run(() => GetAll());
         }
 
-        private IEnumerable<Ingredient> GetAll()
+        private IEnumerable<Meal> GetAll()
         {
             using (var context = new AppDbContext())
             {
-                return context.Ingredients.ToList();
+                return context.Meals.ToList();
             }
         }
 
-        public Task<int> UpdateAsync(Ingredient ingredient)
+        public Task<int> UpdateAsync(Meal meal)
         {
-            return Task.Run(() => Update(ingredient));
+            return Task.Run(() => Update(meal));
         }
 
-        private int Update(Ingredient ingredient)
+        private int Update(Meal meal)
         {
             using (var context = new AppDbContext())
             {
-                context.Entry(ingredient).State = EntityState.Modified;
+                context.Entry(meal).State = EntityState.Modified;
                 try
                 {
                     return context.SaveChanges();
@@ -58,16 +58,16 @@ namespace DietManager.Repositories
             }
         }
 
-        public Task<int> RemoveAsync(Ingredient ingredient)
+        public Task<int> RemoveAsync(Meal meal)
         {
-            return Task.Run(() => Remove(ingredient));
+            return Task.Run(() => Remove(meal));
         }
 
-        private int Remove(Ingredient ingredient)
+        private int Remove(Meal meal)
         {
             using (var context = new AppDbContext())
             {
-                context.Entry(ingredient).State = EntityState.Deleted;
+                context.Entry(meal).State = EntityState.Deleted;
                 try
                 {
                     return context.SaveChanges();

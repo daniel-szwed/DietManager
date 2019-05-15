@@ -21,6 +21,8 @@ namespace DietManager
             Container.RegisterType<IApiService, ApiService>();
             Container.RegisterType<IIngredientRepository, IngredientRepository>();
             Container.RegisterType<IIngredientService, IngredientService>();
+            Container.RegisterType<IMealRepository, MealRepository>();
+            Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
             Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
             Container.Resolve<MainView>().Show();
             //Do the same actions for  all views and their viewmodels

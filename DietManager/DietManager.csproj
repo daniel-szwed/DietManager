@@ -97,17 +97,27 @@
     <Compile Include="Controls\FloatInput.xaml.cs">
       <DependentUpon>FloatInput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StringInput.xaml.cs">
+      <DependentUpon>StringInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\DefaultMultiValueConverter.cs" />
     <Compile Include="Converters\FloatConverter.cs" />
     <Compile Include="Migrations\201905130652593_AddIngredients.cs" />
     <Compile Include="Migrations\201905130652593_AddIngredients.Designer.cs">
       <DependentUpon>201905130652593_AddIngredients.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905151104158_AddMealModel.cs" />
+    <Compile Include="Migrations\201905151104158_AddMealModel.Designer.cs">
+      <DependentUpon>201905151104158_AddMealModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\BindableBase.cs" />
+    <Compile Include="Models\Meal.cs" />
     <Compile Include="Repositories\IIngredientRepository.cs" />
+    <Compile Include="Repositories\IMealRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
+    <Compile Include="Repositories\MealRepository.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\AppDbContext.cs" />
     <Compile Include="Services\IApiService.cs" />
@@ -115,6 +125,7 @@
     <Compile Include="Services\IngredientService.cs" />
     <Compile Include="Utils\DynamicUtil.cs" />
     <Compile Include="ViewModels\IIngredientViewModel.cs" />
+    <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\IngredientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\IngredientView.xaml.cs">
@@ -128,6 +139,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\FloatInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\StringInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,6 +171,9 @@
     </Compile>
     <EmbeddedResource Include="Migrations\201905130652593_AddIngredients.resx">
       <DependentUpon>201905130652593_AddIngredients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151104158_AddMealModel.resx">
+      <DependentUpon>201905151104158_AddMealModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

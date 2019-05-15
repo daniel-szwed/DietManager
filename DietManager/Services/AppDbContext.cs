@@ -19,5 +19,6 @@ namespace DietManager.Services
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
         public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Meal> Meals { get; set; }
     }
 }

@@ -35,16 +35,13 @@
         <TabControl Grid.Column="1" >
             <TabItem Header="Edycja">
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="110" Content="Nazwa"></Label>
-                        <TextBox Width="180" Name="currentIngrName" Text="{Binding SelectedItem.Name, ElementName=IngredientDataGrid}" ></TextBox>
-                    </StackPanel>
-                    <custom:FloatInput Label="Kcal" Text="{Binding SelectedItem.Kcal, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrKcal"/>
-                    <custom:FloatInput Label="Białko" Text="{Binding SelectedItem.Protein, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrProt"/>
-                    <custom:FloatInput Label="Węglowodany" Text="{Binding SelectedItem.Carbohydrates, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrCarb"/>
-                    <custom:FloatInput Label="w tym cukry" Text="{Binding SelectedItem.Sugar, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrSugar"/>
-                    <custom:FloatInput Label="Tłuszcze" Text="{Binding SelectedItem.Fat, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentngrFat"/>
-                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding SelectedItem.Saturated, ElementName=IngredientDataGrid, Mode=TwoWay}" x:Name="currentIngrSat"/>
+                    <custom:StringInput Label="Nazwa" Text="{Binding SelectedItem.Name, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="Kcal" Text="{Binding SelectedItem.Kcal, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="Białko" Text="{Binding SelectedItem.Protein, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="Węglowodany" Text="{Binding SelectedItem.Carbohydrates, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="w tym cukry" Text="{Binding SelectedItem.Sugar, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="Tłuszcze" Text="{Binding SelectedItem.Fat, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
+                    <custom:FloatInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding SelectedItem.Saturated, ElementName=IngredientDataGrid, Mode=TwoWay}"/>
                     <StackPanel Orientation="Horizontal">
                         <Button Width="150" Background="IndianRed" Foreground="White"
                         Command="{Binding RemoveIngredient}"
@@ -69,10 +66,7 @@
             </TabItem>
             <TabItem Header="Nowy">
                 <StackPanel Grid.Column="1" Grid.Row="0">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="110" Content="Nazwa"></Label>
-                        <TextBox Width="180" Name="newIngrName" Text="{Binding Ingredient.Name, Mode=TwoWay}" ></TextBox>
-                    </StackPanel>
+                    <custom:StringInput Label="Nazwa" Text="{Binding Ingredient.Name, Mode=TwoWay}" x:Name="newIngrName"/>
                     <custom:FloatInput Label="Kcal" Text="{Binding Ingredient.Kcal, Mode=TwoWay}" x:Name="newIngrKcal"/>
                     <custom:FloatInput Label="Białko" Text="{Binding Ingredient.Protein, Mode=TwoWay}" x:Name="newIngrProt"/>
                     <custom:FloatInput Label="Węglowodany" Text="{Binding Ingredient.Carbohydrates, Mode=TwoWay}" x:Name="newIngrCarb"/>

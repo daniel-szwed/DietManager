@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DietManager.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="26" d:DesignWidth="290" Name="TextBoxCustom">
+             d:DesignHeight="26" d:DesignWidth="290" Name="FloatInputControl">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Label Width="110" Content="{Binding ElementName=TextBoxCustom, Path=Label}"></Label>
-            <TextBox Width="180" Text="{Binding ElementName=TextBoxCustom, Path=Text}" Name="customTextBox" GotFocus="CustomTextBox_GotFocus" KeyUp="CustomTextBox_KeyUp">
+            <Label Width="110" Content="{Binding ElementName=FloatInputControl, Path=Label}"></Label>
+            <TextBox Width="180" Text="{Binding ElementName=FloatInputControl, Path=Text}" Name="InputTextBox" GotFocus="InputTextBox_GotFocus" KeyUp="InputTextBox_KeyUp">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="BorderBrush" Value="Gray"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text, ElementName=customTextBox, Converter={StaticResource FloatConverter}}" Value="False">
+                            <DataTrigger Binding="{Binding Text, ElementName=InputTextBox, Converter={StaticResource FloatConverter}}" Value="False">
                                 <Setter Property="BorderBrush" Value="Red"/>
                             </DataTrigger>
                         </Style.Triggers>

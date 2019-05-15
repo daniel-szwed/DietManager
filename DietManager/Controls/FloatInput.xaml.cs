@@ -31,13 +31,13 @@ namespace DietManager.Controls
             set { SetValue(LabelProperty, value); }
         }
 
-        private void CustomTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void InputTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
             textBox?.SelectAll();
         }
 
-        private void CustomTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void InputTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (!(e.Key == Key.Decimal || e.Key == Key.OemComma))
                 return;

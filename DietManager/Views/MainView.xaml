@@ -5,11 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DietManager.Views"
         xmlns:viewmodels="clr-namespace:DietManager.ViewModels"
+        xmlns:controls="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
-    <Window.DataContext>
-        <viewmodels:MainViewModel/>
-    </Window.DataContext>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -24,13 +22,28 @@
                     <MenuItem Header="Manage" Command="{Binding ManageIngredients}" />
                 </MenuItem>
             </Menu>
-            <ListBox>
-                <ListBox.Template>
-                    <ControlTemplate>
-                        
-                    </ControlTemplate>
-                </ListBox.Template>
-            </ListBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="0" ItemsSource="{Binding Meals}" Name="MealsListBox">
+                    <ListBox.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <controls:StringInput Label="Nazwa" Text="{Binding Name}"/>
+                        </ItemContainerTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Grid.Column="1">
+                    <controls:StringInput Label="Nazwa" x:Name="newMealInput"/>
+                    <Button Background="ForestGreen" Foreground="White"
+                        Command="{Binding AddMeal}" CommandParameter="{Binding Text, ElementName=newMealInput}">
+                        <TextBlock>
+                            <Bold>Dodaj</Bold>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </DockPanel>
     </Grid>
 </Window>

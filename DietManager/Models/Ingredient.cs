@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DietManager.Models
 {
@@ -12,6 +11,7 @@ namespace DietManager.Models
         private float _sugar;
         private float _fat;
         private float _saturated;
+        private int _amount;
 
         [Key]
         public int Id { get; set; }
@@ -52,11 +52,16 @@ namespace DietManager.Models
             set { _fat = value; NotifyPropertyChanged(nameof(Fat)); }
         }
 
-
         public float Saturated
         {
             get { return _saturated; }
             set { _saturated = value; NotifyPropertyChanged(nameof(Saturated)); }
+        }
+
+        public int Amount
+        {
+            get { return _amount; }
+            set { _amount = value; NotifyPropertyChanged(nameof(Amount)); }
         }
     }
 }

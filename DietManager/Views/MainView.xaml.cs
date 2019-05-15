@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DietManager.ViewModels;
+using System.Windows;
 
 namespace DietManager.Views
 {
@@ -10,6 +11,8 @@ namespace DietManager.Views
         public MainView()
         {
             InitializeComponent();
+            DataContext = ((App)Application.Current).Container.Resolve(typeof(IMainViewModel), "MainViewModel");
+
         }
     }
 }
