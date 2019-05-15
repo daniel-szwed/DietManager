@@ -44,7 +44,7 @@ namespace DietManager.ViewModels
 
         public ICommand SearchIngredient
         {
-            get { return new EagerCommand((parameters) => OnRemoveIngredientAsync(parameters)); } 
+            get { return new EagerCommand((parameters) => OnSearchIngredient(parameters)); } 
         }
 
         public IngredientViewModel(IIngredientRepository ingredientRepository, IIngredientService ingredientService)
