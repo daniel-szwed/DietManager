@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DietManager.Models
 {
@@ -13,8 +14,13 @@ namespace DietManager.Models
         private float _saturated;
         private int _amount;
 
+        public Ingredient()
+        {
+            Meals = new HashSet<Meal>();
+        }
+
         [Key]
-        public int Id { get; set; }
+        public int IngredientId { get; set; }
 
         public string Name
         {
@@ -63,5 +69,7 @@ namespace DietManager.Models
             get { return _amount; }
             set { _amount = value; NotifyPropertyChanged(nameof(Amount)); }
         }
+
+        public virtual ICollection<Meal> Meals { get; set; }
     }
 }

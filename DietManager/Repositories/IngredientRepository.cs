@@ -3,13 +3,19 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
+using DietManager.DataLayer;
 using DietManager.Models;
-using DietManager.Services;
 
 namespace DietManager.Repositories
 {
     public class IngredientRepository : IIngredientRepository
     {
+        private AppDbContext _context;
+
+        public IngredientRepository()
+        {
+            _context = DbSession.Instance.GetAppDbcontext();
+        }
         public Task<int> AddAsync(Ingredient ingredient)
         {
             return Task.Run(() => Add(ingredient));
@@ -17,11 +23,8 @@ namespace DietManager.Repositories
 
         private int Add(Ingredient ingredient)
         {
-            using (var context = new AppDbContext())
-            {
-                context.Ingredients.Add(ingredient);
-                return context.SaveChanges();
-            }
+            _context.Ingredients.Add(ingredient);
+            return _context.SaveChanges();
         }
 
         public Task<IEnumerable<Ingredient>> GetAllAsync()
@@ -31,10 +34,7 @@ namespace DietManager.Repositories
 
         private IEnumerable<Ingredient> GetAll()
         {
-            using (var context = new AppDbContext())
-            {
-                return context.Ingredients.ToList();
-            }
+            return _context.Ingredients.ToList();
         }
 
         public Task<int> UpdateAsync(Ingredient ingredient)
@@ -44,17 +44,14 @@ namespace DietManager.Repositories
 
         private int Update(Ingredient ingredient)
         {
-            using (var context = new AppDbContext())
+            _context.Entry(ingredient).State = EntityState.Modified;
+            try
             {
-                context.Entry(ingredient).State = EntityState.Modified;
-                try
-                {
-                    return context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return -1;
-                }
+                return _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return -1;
             }
         }
 
@@ -65,17 +62,14 @@ namespace DietManager.Repositories
 
         private int Remove(Ingredient ingredient)
         {
-            using (var context = new AppDbContext())
+            _context.Entry(ingredient).State = EntityState.Deleted;
+            try
             {
-                context.Entry(ingredient).State = EntityState.Deleted;
-                try
-                {
-                    return context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return -1;
-                }
+                return _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return -1;
             }
         }
     }

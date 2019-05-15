@@ -1,4 +1,4 @@
-namespace DietManager.Services
+namespace DietManager.DataLayer
 {
     using DietManager.Models;
     using System.Data.Entity;
