@@ -8,19 +8,14 @@ namespace DietManager.Commands
     /// </summary>
     public class EagerCommand : ICommand
     {
-        public delegate void ICommandOnExecute(object parameters);
-        public delegate bool ICommandOnCanExecute(object parameters);
+        private Action<object> _execute;
+        private Func<object, bool> _canExecute;
 
-        private ICommandOnExecute _execute;
-        private ICommandOnCanExecute _canExecute;
-
-        public EagerCommand(ICommandOnExecute onExecuteMethod, ICommandOnCanExecute onCanExecuteMethod = null)
+        public EagerCommand(Action<object> onExecuteMethod, Func<object, bool> onCanExecuteMethod = null)
         {
             _execute = onExecuteMethod;
             _canExecute = onCanExecuteMethod;
         }
-
-        #region ICommand Members
 
         public event EventHandler CanExecuteChanged
         {
@@ -37,7 +32,5 @@ namespace DietManager.Commands
         {
             _execute?.Invoke(parameters);
         }
-
-        #endregion
     }
 }
