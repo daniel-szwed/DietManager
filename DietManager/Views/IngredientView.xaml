@@ -21,8 +21,7 @@
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Name="IngredientDataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False"
-                  SelectionChanged="IngredientDataGrid_SelectionChanged" >
+        <DataGrid Name="IngredientDataGrid" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Ingredients}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Kcal" Binding="{Binding Kcal}"/>

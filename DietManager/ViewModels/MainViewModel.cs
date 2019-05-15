@@ -1,23 +1,17 @@
 ﻿using DietManager.Commands;
 using DietManager.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DietManager.ViewModels
 {
     public class MainViewModel
     {
-        public Command ManageIngredients { get; }
-
-        public MainViewModel()
+        public ICommand ManageIngredients
         {
-            ManageIngredients = new Command(OnManageIngredients);
+            get { return new EagerCommand((parameters) => OnManageIngredients(parameters)); }
         }
 
-        private void OnManageIngredients(object p)
+        private void OnManageIngredients(object parameters)
         {
             var window = new IngredientView();
             window.Show();

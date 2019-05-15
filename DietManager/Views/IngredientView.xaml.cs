@@ -1,9 +1,5 @@
 ﻿using DietManager.ViewModels;
-using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace DietManager.Views
 {
@@ -16,12 +12,6 @@ namespace DietManager.Views
         {
             InitializeComponent();
             DataContext = ((App)Application.Current).Container.Resolve(typeof(IIngredientViewModel), "IngredientViewModel");
-        }
-
-        private void IngredientDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ((IIngredientViewModel)DataContext).UpdateIngredient.RaiseCanExecuteChanged();
-            ((IIngredientViewModel)DataContext).RemoveIngredient.RaiseCanExecuteChanged();
         }
     }
 }

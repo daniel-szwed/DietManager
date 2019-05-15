@@ -2,14 +2,13 @@
 using DietManager.Models;
 using DietManager.Repositories;
 using DietManager.Services;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace DietManager.ViewModels
 {
-    public class IngredientViewModel : IIngredientViewModel, INotifyPropertyChanged
+    public class IngredientViewModel : BindableBase, IIngredientViewModel
     {
         private IIngredientRepository _ingredientRepository;
         private IIngredientService _ingredientService;
@@ -23,29 +22,42 @@ namespace DietManager.ViewModels
             set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); }
         }
         
-        public Command AddIngredient { get; }
-        public Command UpdateIngredient { get; }
-        public Command RemoveIngredient { get; }
-        public Command SearchIngredient { get; }
-        public event PropertyChangedEventHandler PropertyChanged;
-        
+        public ICommand AddIngredient
+        {
+            get { return new EagerCommand(
+                    (parameters) => OnAddIngredientAsync(parameters),
+                    (pararmeters) => CanAddIngredient(pararmeters)); } }
+
+        public ICommand UpdateIngredient
+        {
+            get { return new EagerCommand(
+                    (parameters) => OnUpdateIngredientAsync(parameters),
+                    (pararmeters) => CanEditIngredient(pararmeters)); } 
+        }
+
+        public ICommand RemoveIngredient
+        {
+            get { return new EagerCommand(
+                    (parameters) => OnRemoveIngredientAsync(parameters),
+                    (pararmeters) => CanEditIngredient(pararmeters)); } 
+        }
+
+        public ICommand SearchIngredient
+        {
+            get { return new EagerCommand((parameters) => OnRemoveIngredientAsync(parameters)); } 
+        }
+
         public IngredientViewModel(IIngredientRepository ingredientRepository, IIngredientService ingredientService)
         {
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
             Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
-            Ingredient = new Ingredient() { Name = "nazwa", Kcal = 0, Protein = 0, Carbohydrates = 0, Sugar = 0, Fat = 0, Saturated = 0 };
-            AddIngredient = new Command(OnAddIngredientAsync, CanAddIngredient);
-            UpdateIngredient = new Command(OnUpdateIngredientAsync, CanEditIngredient);
-            RemoveIngredient = new Command(OnRemoveIngredientAsync, CanEditIngredient);
-            SearchIngredient = new Command(OnSearchIngredient);
         }
 
         private async void OnSearchIngredient(object obj)
         {
             string name = obj as string;
             Ingredient = await _ingredientService.SearchIngredientAsync(name);
-            AddIngredient.RaiseCanExecuteChanged();
         }
 
         private bool CanEditIngredient(object arg)
@@ -98,13 +110,8 @@ namespace DietManager.ViewModels
                 Saturated = float.Parse(res[6].ToString())
             };
             var result = await _ingredientRepository.AddAsync(ingredient);
-            if(result == 1)
+            if (result == 1)
                 Ingredients.Add(ingredient);
-        }
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

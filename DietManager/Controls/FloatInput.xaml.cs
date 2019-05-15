@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace DietManager.Controls
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for FloatInput.xaml
     /// </summary>
     public partial class FloatInput : UserControl
     {

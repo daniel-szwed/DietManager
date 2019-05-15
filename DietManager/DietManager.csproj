@@ -93,6 +93,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\EagerCommand.cs" />
     <Compile Include="Controls\FloatInput.xaml.cs">
       <DependentUpon>FloatInput.xaml</DependentUpon>
     </Compile>
@@ -104,7 +105,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ingredient.cs" />
-    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\BindableBase.cs" />
     <Compile Include="Repositories\IIngredientRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
     <Compile Include="Services\ApiService.cs" />

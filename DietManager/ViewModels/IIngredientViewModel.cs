@@ -1,15 +1,16 @@
 ﻿using DietManager.Commands;
 using DietManager.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace DietManager.ViewModels
 {
     public interface IIngredientViewModel
     {
-        Command AddIngredient { get; }
-        Command UpdateIngredient { get; }
-        Command RemoveIngredient { get; }
-        Command SearchIngredient { get; }
+        ICommand AddIngredient { get; }
+        ICommand UpdateIngredient { get; }
+        ICommand RemoveIngredient { get; }
+        ICommand SearchIngredient { get; }
         ObservableCollection<Ingredient> Ingredients { get; set; }
     }
 }
