@@ -8,6 +8,21 @@ namespace DietManager.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.IngredientBases",
+                c => new
+                    {
+                        IngredientBaseId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Kcal = c.Single(nullable: false),
+                        Protein = c.Single(nullable: false),
+                        Carbohydrates = c.Single(nullable: false),
+                        Sugar = c.Single(nullable: false),
+                        Fat = c.Single(nullable: false),
+                        Saturated = c.Single(nullable: false),
+                    })
+                .PrimaryKey(t => t.IngredientBaseId);
+            
+            CreateTable(
                 "dbo.Ingredients",
                 c => new
                     {
@@ -19,7 +34,7 @@ namespace DietManager.Migrations
                         Sugar = c.Single(nullable: false),
                         Fat = c.Single(nullable: false),
                         Saturated = c.Single(nullable: false),
-                        Amount = c.Int(nullable: false),
+                        Amount = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.IngredientId);
             
@@ -56,6 +71,7 @@ namespace DietManager.Migrations
             DropTable("dbo.MealIngredients");
             DropTable("dbo.Meals");
             DropTable("dbo.Ingredients");
+            DropTable("dbo.IngredientBases");
         }
     }
 }

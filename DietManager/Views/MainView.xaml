@@ -8,6 +8,10 @@
         xmlns:controls="clr-namespace:DietManager.Controls"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
+    <Window.Resources>
+        <BitmapImage x:Key="refreshImg" UriSource="/DietManager;component/Resources/refresh.png"/>
+        <BitmapImage x:Key="removeImg" UriSource="/DietManager;component/Resources/remove.png"/>
+    </Window.Resources>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -32,15 +36,33 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Column="0" Grid.RowSpan="3" ItemsSource="{Binding Meals}" Name="MealsListBox">
+                <ListBox Grid.Column="0" Grid.RowSpan="3" ItemsSource="{Binding Meals}" Name="MealsListBox" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
                                 <controls:StringInput Label="Nazwa" Text="{Binding Name}"/>
-                                <ListBox ItemsSource="{Binding Ingregients}">
+                                <ListBox ItemsSource="{Binding Ingregients}" Name="IngredientsListBox">
                                     <ListBox.ItemTemplate>
                                         <ItemContainerTemplate>
-                                            <TextBox Text="{Binding Name}"/>
+                                            <DockPanel Width="275">
+                                                <TextBox Text="{Binding Name}"/>
+                                                <TextBox Text="{Binding Amount}"/>
+                                                <Button HorizontalAlignment="Right" Background="Red" Foreground="White"
+                                                        Command="{Binding Path=DataContext.RemoveIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" UseLayoutRounding="False">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock >
+                                                            <Bold>&#160; X &#160;</Bold>
+                                                        </TextBlock>
+                                                        <!--<Image Source="{StaticResource ResourceKey=removeImg}" Width="20"/>-->
+                                                    </StackPanel>
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                                                            <Binding Path="SelectedItem" ElementName="MealsListBox"></Binding>
+                                                            <Binding></Binding>
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                            </DockPanel>
                                         </ItemContainerTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
@@ -52,26 +74,34 @@
                     <controls:StringInput Label="Nazwa" x:Name="newMealInput"/>
                     <Button Background="ForestGreen" Foreground="White"
                         Command="{Binding AddMeal}" CommandParameter="{Binding Text, ElementName=newMealInput}">
-                        <TextBlock>
+                        <TextBlock >
                             <Bold>Dodaj posiłek</Bold>
                         </TextBlock>
                     </Button>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <ComboBox Name="IngredientComboBox" ItemsSource="{Binding Ingredients}" DisplayMemberPath="Name"/>
-                    <Button Background="ForestGreen" Foreground="White"
-                        Command="{Binding AddIngredient}" >
-                        <TextBlock>
-                            <Bold>Dodaj składnik</Bold>
-                        </TextBlock>
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
-                                <!--CommandParameter="{Binding SelectedItem, ElementName=IngredientComboBox}"-->
-                                <Binding Path="SelectedItem" ElementName="IngredientComboBox"/>
-                                <Binding Path="SelectedItem" ElementName="MealsListBox"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
-                    </Button>
+                    <StackPanel Name="IngrSP" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <ComboBox Name="IngredientComboBox" Width="220" ItemsSource="{Binding Ingredients}" DisplayMemberPath="Name"/>
+                        <Button Width="26" Command="{Binding RefreshIngredients}">
+                            <Image Source="{StaticResource ResourceKey=refreshImg}" Width="20"/>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel>
+                        <controls:FloatInput x:Name="IngrAmount" Label="Waga [g]" TextChanged="IngrAmount_TextChanged"></controls:FloatInput>
+                        <Button Background="ForestGreen" Foreground="White"
+                            Command="{Binding AddIngredient}">
+                            <TextBlock>
+                                <Bold>Dodaj składnik</Bold>
+                            </TextBlock>
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                                    <Binding Path="SelectedItem" ElementName="MealsListBox"/>
+                                    <Binding Path="SelectedItem" ElementName="IngredientComboBox"/>
+                                    <Binding Path="Text" ElementName="IngrAmount"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </DockPanel>

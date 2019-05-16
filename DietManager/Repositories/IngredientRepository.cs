@@ -16,33 +16,33 @@ namespace DietManager.Repositories
         {
             _context = DbSession.Instance.GetAppDbcontext();
         }
-        public Task<int> AddAsync(Ingredient ingredient)
+        public Task<int> AddAsync(IngredientBase ingredient)
         {
             return Task.Run(() => Add(ingredient));
         }
 
-        private int Add(Ingredient ingredient)
+        private int Add(IngredientBase ingredient)
         {
-            _context.Ingredients.Add(ingredient);
+            _context.IngredientBase.Add(ingredient);
             return _context.SaveChanges();
         }
 
-        public Task<IEnumerable<Ingredient>> GetAllAsync()
+        public Task<IEnumerable<IngredientBase>> GetAllAsync()
         {
             return Task.Run(() => GetAll());
         }
 
-        private IEnumerable<Ingredient> GetAll()
+        private IEnumerable<IngredientBase> GetAll()
         {
-            return _context.Ingredients.ToList();
+            return _context.IngredientBase.ToList();
         }
 
-        public Task<int> UpdateAsync(Ingredient ingredient)
+        public Task<int> UpdateAsync(IngredientBase ingredient)
         {
             return Task.Run(() => Update(ingredient));
         }
 
-        private int Update(Ingredient ingredient)
+        private int Update(IngredientBase ingredient)
         {
             _context.Entry(ingredient).State = EntityState.Modified;
             try
@@ -55,12 +55,12 @@ namespace DietManager.Repositories
             }
         }
 
-        public Task<int> RemoveAsync(Ingredient ingredient)
+        public Task<int> RemoveAsync(IngredientBase ingredient)
         {
             return Task.Run(() => Remove(ingredient));
         }
 
-        private int Remove(Ingredient ingredient)
+        private int Remove(IngredientBase ingredient)
         {
             _context.Entry(ingredient).State = EntityState.Deleted;
             try

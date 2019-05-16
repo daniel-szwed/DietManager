@@ -5,6 +5,6 @@ namespace DietManager.Services
 {
     public interface IIngredientService
     {
-        Task<Ingredient> SearchIngredientAsync(string name);
+        Task<IngredientBase> SearchIngredientAsync(string name);
     }
 }

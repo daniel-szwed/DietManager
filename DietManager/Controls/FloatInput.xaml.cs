@@ -10,6 +10,7 @@ namespace DietManager.Controls
     /// </summary>
     public partial class FloatInput : UserControl
     {
+        public event EventHandler TextChanged = delegate { };
         public FloatInput()
         {
             InitializeComponent();
@@ -39,6 +40,8 @@ namespace DietManager.Controls
 
         private void InputTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            if (e.Key == Key.Enter)
+                TextChanged.Invoke(sender, e);
             if (!(e.Key == Key.Decimal || e.Key == Key.OemComma))
                 return;
             var textBox = sender as TextBox;

@@ -12,11 +12,11 @@ namespace DietManager.ViewModels
     {
         private IIngredientRepository _ingredientRepository;
         private IIngredientService _ingredientService;
-        private Ingredient _ingredietn;
+        private IngredientBase _ingredietn;
 
-        public ObservableCollection<Ingredient> Ingredients { get; set; }
+        public ObservableCollection<IngredientBase> Ingredients { get; set; }
 
-        public Ingredient Ingredient
+        public IngredientBase Ingredient
         {
             get { return _ingredietn; }
             set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); }
@@ -51,7 +51,7 @@ namespace DietManager.ViewModels
         {
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
-            Ingredients = new ObservableCollection<Ingredient>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
+            Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
         }
 
         private async void OnSearchIngredient(object obj)
@@ -62,20 +62,20 @@ namespace DietManager.ViewModels
 
         private bool CanEditIngredient(object arg)
         {
-            var ingredient = arg as Ingredient;
-            return arg is Ingredient;
+            var ingredient = arg as IngredientBase;
+            return arg is IngredientBase;
         }
 
         private async void OnRemoveIngredientAsync(object obj)
         {
-            var ingredient = obj as Ingredient;
+            var ingredient = obj as IngredientBase;
             Ingredients.Remove(ingredient);
             var result = await _ingredientRepository.RemoveAsync(ingredient);
         }
 
         private async void OnUpdateIngredientAsync(object obj)
         {
-            var ingredient = obj as Ingredient;
+            var ingredient = obj as IngredientBase;
             var result = await _ingredientRepository.UpdateAsync(ingredient);
         }
 
@@ -99,7 +99,7 @@ namespace DietManager.ViewModels
         private async void OnAddIngredientAsync(object parameters)
         {
             object[] res = parameters as object[];
-            var ingredient = new Ingredient()
+            var ingredient = new IngredientBase()
             {
                 Name = res[0].ToString(),
                 Kcal = float.Parse(res[1].ToString()),

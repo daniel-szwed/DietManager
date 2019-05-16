@@ -12,7 +12,7 @@ namespace DietManager.Services
     public class IngredientService : IIngredientService
     {
 
-        public async Task<Ingredient> SearchIngredientAsync(string name)
+        public async Task<IngredientBase> SearchIngredientAsync(string name)
         {
             using (var client = new ApiService())
             {
@@ -29,7 +29,7 @@ namespace DietManager.Services
                 if (DynamicUtil.HasProperty(responseBody, "foods"))
                 {
                     var foods = responseBody.foods[0];
-                    var ingredient = new Ingredient();
+                    var ingredient = new IngredientBase();
                     var mapping = new Dictionary<string, string>();
                     mapping.Add("name", "food_name");
                     mapping.Add("kcal", "nf_calories");
@@ -48,7 +48,7 @@ namespace DietManager.Services
             }
         }
 
-        private void Recalc(Ingredient ingredient, long serving_weight_grams)
+        private void Recalc(IngredientBase ingredient, long serving_weight_grams)
         {
             foreach (var propertyInfo in ingredient.GetType().GetProperties())
             {

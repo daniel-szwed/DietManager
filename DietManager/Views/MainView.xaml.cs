@@ -1,5 +1,7 @@
 ﻿using DietManager.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DietManager.Views
 {
@@ -13,6 +15,12 @@ namespace DietManager.Views
             InitializeComponent();
             DataContext = ((App)Application.Current).Container.Resolve(typeof(IMainViewModel), "MainViewModel");
 
+        }
+
+        private void IngrAmount_TextChanged(object sender, System.EventArgs e)
+        {
+            ((TextBox)sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Up));
+            ((TextBox)sender).Focus();
         }
     }
 }

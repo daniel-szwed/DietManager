@@ -11,6 +11,6 @@ namespace DietManager.ViewModels
         ICommand UpdateIngredient { get; }
         ICommand RemoveIngredient { get; }
         ICommand SearchIngredient { get; }
-        ObservableCollection<Ingredient> Ingredients { get; set; }
+        ObservableCollection<IngredientBase> Ingredients { get; set; }
     }
 }
