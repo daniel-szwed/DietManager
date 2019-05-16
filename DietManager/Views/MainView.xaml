@@ -36,17 +36,17 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Column="0" Grid.RowSpan="3" ItemsSource="{Binding Meals}" Name="MealsListBox" >
+                <ListBox Grid.Column="0" Grid.RowSpan="3" ItemsSource="{Binding Meals}" SelectedItem="{Binding SelectedMeal}" Name="MealsListBox" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
                                 <controls:StringInput Label="Nazwa" Text="{Binding Name}"/>
-                                <ListBox ItemsSource="{Binding Ingregients}" Name="IngredientsListBox">
-                                    <ListBox.ItemTemplate>
+                                <ListBox ItemsSource="{Binding Ingregients}" SelectedItem="{Binding DataContext.SelectedIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Name="IngredientsListBox" LostFocus="IngredientsListBox_LostFocus">
+                                    <ListBox.ItemTemplate >
                                         <ItemContainerTemplate>
-                                            <DockPanel Width="275">
+                                            <DockPanel Width="275" MouseWheel="Ammount_MouseWheel" >
                                                 <TextBox Text="{Binding Name}"/>
-                                                <TextBox Text="{Binding Amount}"/>
+                                                <TextBox Text="{Binding Amount}" />
                                                 <Button HorizontalAlignment="Right" Background="Red" Foreground="White"
                                                         Command="{Binding Path=DataContext.RemoveIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" UseLayoutRounding="False">
                                                     <StackPanel Orientation="Horizontal">

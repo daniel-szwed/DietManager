@@ -22,5 +22,19 @@ namespace DietManager.Views
             ((TextBox)sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Up));
             ((TextBox)sender).Focus();
         }
+
+        private void Ammount_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var vm = ((MainViewModel)DataContext);
+            if (e.Delta > 0)
+                vm.IncreaseAmount();
+            else
+                vm.DecreaseAmount();
+        }
+
+        private void IngredientsListBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((ListBox)sender).SelectedItem = null;
+        }
     }
 }

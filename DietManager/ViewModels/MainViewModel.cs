@@ -14,8 +14,41 @@ namespace DietManager.ViewModels
     {
         private IIngredientRepository _ingredientRepository;
         private IMealRepository _mealRepository;
+        private Meal _selectedMeal;
+        private Ingredient _selectedIngredient;
+
         public ObservableCollection<Meal> Meals { get; set; }
-        public ObservableCollection<IngredientBase> Ingredients { get; set; }
+        public ObservableCollection<IngredientBase> IngredientBase { get; set; }
+        
+        public Meal SelectedMeal
+        {
+            get { return _selectedMeal; }
+            set { _selectedMeal = value; NotifyPropertyChanged(nameof(SelectedMeal)); }
+        }
+
+        public Ingredient SelectedIngredient
+        {
+            get { return _selectedIngredient; }
+            set { _selectedIngredient = value;
+                try
+                {
+                    SelectedMeal = Meals.First(m => m.Ingregients.Contains(_selectedIngredient));
+                }
+                catch (InvalidOperationException) { }
+                NotifyPropertyChanged(nameof(SelectedIngredient)); }
+        }
+        
+        internal void IncreaseAmount()
+        {
+            if (SelectedMeal?.Ingregients.Contains(SelectedIngredient) ?? false)
+                SelectedIngredient.Amount++;
+        }
+
+        internal void DecreaseAmount()
+        {
+            if (SelectedMeal?.Ingregients.Contains(SelectedIngredient) ?? false)
+                SelectedIngredient.Amount--;
+        }
 
         public ICommand ManageIngredients
         {
@@ -42,13 +75,12 @@ namespace DietManager.ViewModels
             get { return new EagerCommand(p => OnRemoveIngredient(p), p => CanRemoveIngredient(p)); }
         }
 
-
         public MainViewModel(IMealRepository mealRepository, IIngredientRepository ingredientRepository)
         {
             _ingredientRepository = ingredientRepository;
             _mealRepository = mealRepository;
             Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
-            Ingredients = new ObservableCollection<IngredientBase>(GetIngredients());
+            IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
         }
 
         private IEnumerable<IngredientBase> GetIngredients()
@@ -75,8 +107,8 @@ namespace DietManager.ViewModels
         private void OnRefreshInfredients(object p)
         {
             var ingredients = GetIngredients();
-            Ingredients.Clear();
-            ingredients.ToList().ForEach(i => Ingredients.Add(i));
+            IngredientBase.Clear();
+            ingredients.ToList().ForEach(i => IngredientBase.Add(i));
         }
         
         private bool CanAddIngredient(object p)
