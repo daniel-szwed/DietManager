@@ -81,7 +81,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="1">
                     <StackPanel Name="IngrSP" Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <ComboBox Name="IngredientComboBox" Width="220" ItemsSource="{Binding Ingredients}" DisplayMemberPath="Name"/>
+                        <ComboBox Name="IngredientComboBox" Width="220" ItemsSource="{Binding IngredientBase}" DisplayMemberPath="Name"/>
                         <Button Width="26" Command="{Binding RefreshIngredients}">
                             <Image Source="{StaticResource ResourceKey=refreshImg}" Width="20"/>
                         </Button>

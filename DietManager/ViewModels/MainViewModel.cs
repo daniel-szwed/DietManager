@@ -12,6 +12,7 @@ namespace DietManager.ViewModels
 {
     public class MainViewModel : BindableBase, IMainViewModel
     {
+        private IIngredientBaseRepository _ingredientBaseRepository;
         private IIngredientRepository _ingredientRepository;
         private IMealRepository _mealRepository;
         private Meal _selectedMeal;
@@ -75,8 +76,9 @@ namespace DietManager.ViewModels
             get { return new EagerCommand(p => OnRemoveIngredient(p), p => CanRemoveIngredient(p)); }
         }
 
-        public MainViewModel(IMealRepository mealRepository, IIngredientRepository ingredientRepository)
+        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository)
         {
+            _ingredientBaseRepository = ingredientBaseRepository;
             _ingredientRepository = ingredientRepository;
             _mealRepository = mealRepository;
             Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
@@ -85,7 +87,7 @@ namespace DietManager.ViewModels
 
         private IEnumerable<IngredientBase> GetIngredients()
         {
-            return _ingredientRepository.GetAllAsync().GetAwaiter().GetResult();
+            return _ingredientBaseRepository.GetAllAsync().GetAwaiter().GetResult();
         }
 
         private bool CanRemoveIngredient(object p)
@@ -102,6 +104,7 @@ namespace DietManager.ViewModels
             var meal = param[0] as Meal;
             var ingredient = param[1] as Ingredient;
             meal.Ingregients.Remove(ingredient);
+            _ingredientRepository.RemoveAsync(ingredient);
         }
 
         private void OnRefreshInfredients(object p)

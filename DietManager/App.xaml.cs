@@ -19,6 +19,7 @@ namespace DietManager
             base.OnStartup(e);
             Container = new UnityContainer();
             Container.RegisterType<IApiService, ApiService>();
+            Container.RegisterType<IIngredientBaseRepository, IngredientBaseRepository>();
             Container.RegisterType<IIngredientRepository, IngredientRepository>();
             Container.RegisterType<IIngredientService, IngredientService>();
             Container.RegisterType<IMealRepository, MealRepository>();

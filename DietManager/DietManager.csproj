@@ -113,8 +113,10 @@
     <Compile Include="Models\IngredientBase.cs" />
     <Compile Include="Models\BindableBase.cs" />
     <Compile Include="Models\Meal.cs" />
+    <Compile Include="Repositories\IIngredientBaseRepository.cs" />
     <Compile Include="Repositories\IIngredientRepository.cs" />
     <Compile Include="Repositories\IMealRepository.cs" />
+    <Compile Include="Repositories\IngredientBaseRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
     <Compile Include="Repositories\MealRepository.cs" />
     <Compile Include="Services\ApiService.cs" />

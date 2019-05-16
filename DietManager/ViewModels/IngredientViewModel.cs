@@ -10,7 +10,7 @@ namespace DietManager.ViewModels
 {
     public class IngredientViewModel : BindableBase, IIngredientViewModel
     {
-        private IIngredientRepository _ingredientRepository;
+        private IIngredientBaseRepository _ingredientRepository;
         private IIngredientService _ingredientService;
         private IngredientBase _ingredietn;
 
@@ -47,7 +47,7 @@ namespace DietManager.ViewModels
             get { return new EagerCommand((parameters) => OnSearchIngredient(parameters)); } 
         }
 
-        public IngredientViewModel(IIngredientRepository ingredientRepository, IIngredientService ingredientService)
+        public IngredientViewModel(IIngredientBaseRepository ingredientRepository, IIngredientService ingredientService)
         {
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
