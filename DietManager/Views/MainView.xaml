@@ -45,8 +45,8 @@
                                     <ListBox.ItemTemplate >
                                         <ItemContainerTemplate>
                                             <DockPanel Width="275" MouseWheel="Ammount_MouseWheel" >
-                                                <TextBox Text="{Binding Name}"/>
-                                                <TextBox Text="{Binding Amount}" />
+                                                <TextBox Text="{Binding Name}" IsEnabled="False"/>
+                                                <TextBox Text="{Binding Amount}" IsEnabled="False" />
                                                 <Button HorizontalAlignment="Right" Background="Red" Foreground="White"
                                                         Command="{Binding Path=DataContext.RemoveIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" UseLayoutRounding="False">
                                                     <StackPanel Orientation="Horizontal">

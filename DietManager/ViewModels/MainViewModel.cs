@@ -2,7 +2,6 @@
 using DietManager.Models;
 using DietManager.Repositories;
 using DietManager.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -31,24 +30,19 @@ namespace DietManager.ViewModels
         {
             get { return _selectedIngredient; }
             set { _selectedIngredient = value;
-                try
-                {
+                if(_selectedIngredient != null)
                     SelectedMeal = Meals.First(m => m.Ingregients.Contains(_selectedIngredient));
-                }
-                catch (InvalidOperationException) { }
                 NotifyPropertyChanged(nameof(SelectedIngredient)); }
         }
         
-        internal void IncreaseAmount()
+        internal void IncreaseAmount(Ingredient ingredient)
         {
-            if (SelectedMeal?.Ingregients.Contains(SelectedIngredient) ?? false)
-                SelectedIngredient.Amount++;
+            ingredient.Amount++;
         }
 
-        internal void DecreaseAmount()
+        internal void DecreaseAmount(Ingredient ingredient)
         {
-            if (SelectedMeal?.Ingregients.Contains(SelectedIngredient) ?? false)
-                SelectedIngredient.Amount--;
+            ingredient.Amount--;
         }
 
         public ICommand ManageIngredients

@@ -1,4 +1,5 @@
-﻿using DietManager.ViewModels;
+﻿using DietManager.Models;
+using DietManager.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,10 +27,11 @@ namespace DietManager.Views
         private void Ammount_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             var vm = ((MainViewModel)DataContext);
+            var ingr = (Ingredient)((DockPanel)sender).DataContext;
             if (e.Delta > 0)
-                vm.IncreaseAmount();
+                vm.IncreaseAmount(ingr);
             else
-                vm.DecreaseAmount();
+                vm.DecreaseAmount(ingr);
         }
 
         private void IngredientsListBox_LostFocus(object sender, RoutedEventArgs e)
