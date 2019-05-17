@@ -22,6 +22,7 @@ namespace DietManager
             Container.RegisterType<IIngredientBaseRepository, IngredientBaseRepository>();
             Container.RegisterType<IIngredientRepository, IngredientRepository>();
             Container.RegisterType<IIngredientService, IngredientService>();
+            Container.RegisterType<IMealService, MealService>();
             Container.RegisterType<IMealRepository, MealRepository>();
             Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
             Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");

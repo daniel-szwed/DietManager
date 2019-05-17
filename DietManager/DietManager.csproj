@@ -122,7 +122,9 @@
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\IApiService.cs" />
     <Compile Include="Services\IIngredientService.cs" />
+    <Compile Include="Services\IMealService.cs" />
     <Compile Include="Services\IngredientService.cs" />
+    <Compile Include="Services\MealService.cs" />
     <Compile Include="Utils\DynamicUtil.cs" />
     <Compile Include="ViewModels\IIngredientViewModel.cs" />
     <Compile Include="ViewModels\IMainViewModel.cs" />

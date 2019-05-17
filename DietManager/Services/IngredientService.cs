@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,46 @@ namespace DietManager.Services
                     propertyInfo.SetValue(ingredient, (float)rounded);
                 }
             }
+        }
+
+        public IngredientBase GetSum(IEnumerable<Ingredient> ingregients)
+        {
+            var sumIngredient = new Ingredient();
+            ingregients.ToList().ForEach(i => {
+                foreach (var propertyInfo in i.GetType().GetProperties())
+                {
+                    if (propertyInfo.PropertyType.Name == "Single")
+                    {
+                        float value = GetNutritionFactForAmmount(i, propertyInfo.Name);
+                        float sumValue = (float)propertyInfo.GetValue(sumIngredient);
+                        propertyInfo.SetValue(sumIngredient, sumValue + value);
+                    }
+                }
+            });
+            return sumIngredient;
+        }
+
+        private float GetNutritionFactForAmmount(Ingredient ingredient, string propName)
+        {
+            float tableValue = (float)typeof(Ingredient).GetProperty(propName).GetValue(ingredient);
+            return tableValue * (ingredient.Amount / 100f);
+        }
+
+        public IngredientBase GetSum(IEnumerable<IngredientBase> ingregients)
+        {
+            var sumIngredient = new Ingredient();
+            ingregients.ToList().ForEach(i => {
+                foreach (var propertyInfo in i.GetType().GetProperties())
+                {
+                    if (propertyInfo.PropertyType.Name == "Single")
+                    {
+                        float value = (float)propertyInfo.GetValue(i);
+                        float sumValue = (float)propertyInfo.GetValue(sumIngredient);
+                        propertyInfo.SetValue(sumIngredient, sumValue + value);
+                    }
+                }
+            });
+            return sumIngredient;
         }
     }
 }

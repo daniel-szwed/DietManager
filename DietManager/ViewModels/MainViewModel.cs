@@ -1,6 +1,7 @@
 ﻿using DietManager.Commands;
 using DietManager.Models;
 using DietManager.Repositories;
+using DietManager.Services;
 using DietManager.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +15,19 @@ namespace DietManager.ViewModels
         private IIngredientBaseRepository _ingredientBaseRepository;
         private IIngredientRepository _ingredientRepository;
         private IMealRepository _mealRepository;
+        private IMealService _mealService;
         private Meal _selectedMeal;
         private Ingredient _selectedIngredient;
+
+        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository, IMealService mealService)
+        {
+            _ingredientBaseRepository = ingredientBaseRepository;
+            _ingredientRepository = ingredientRepository;
+            _mealRepository = mealRepository;
+            _mealService = mealService;
+            Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
+            IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
+        }
 
         public ObservableCollection<Meal> Meals { get; set; }
         public ObservableCollection<IngredientBase> IngredientBase { get; set; }
@@ -34,15 +46,26 @@ namespace DietManager.ViewModels
                     SelectedMeal = Meals.First(m => m.Ingregients.Contains(_selectedIngredient));
                 NotifyPropertyChanged(nameof(SelectedIngredient)); }
         }
-        
+
+        private IngredientBase _totalNutritionFacts;
+
+        public IngredientBase TotalNutritionFacts
+        {
+            get { return _totalNutritionFacts; }
+            set { _totalNutritionFacts = value; NotifyPropertyChanged(nameof(TotalNutritionFacts)); }
+        }
+
+
         internal void IncreaseAmount(Ingredient ingredient)
         {
             ingredient.Amount++;
+            TotalNutritionFacts = _mealService.GetSum(Meals);
         }
 
         internal void DecreaseAmount(Ingredient ingredient)
         {
             ingredient.Amount--;
+            TotalNutritionFacts = _mealService.GetSum(Meals);
         }
 
         public ICommand ManageIngredients
@@ -68,15 +91,6 @@ namespace DietManager.ViewModels
         public ICommand RemoveIngredient
         {
             get { return new EagerCommand(p => OnRemoveIngredient(p), p => CanRemoveIngredient(p)); }
-        }
-
-        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository)
-        {
-            _ingredientBaseRepository = ingredientBaseRepository;
-            _ingredientRepository = ingredientRepository;
-            _mealRepository = mealRepository;
-            Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
-            IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
         }
 
         private IEnumerable<IngredientBase> GetIngredients()

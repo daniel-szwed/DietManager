@@ -16,6 +16,7 @@ namespace DietManager.Models
         public Ingredient(IngredientBase ingredientBase)
         {
             Meals = new ObservableCollection<Meal>();
+            Kcal = ingredientBase.Kcal;
             Name = ingredientBase.Name;
             Protein = ingredientBase.Protein;
             Carbohydrates = ingredientBase.Carbohydrates;

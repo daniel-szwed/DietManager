@@ -103,6 +103,10 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="2">
+                    <controls:StringInput  Label="Suma kcal" Text="{Binding TotalNutritionFacts.Kcal}"/>
+                    <controls:StringInput  Label="Suma prot" Text="{Binding TotalNutritionFacts.Protein}"/>
+                </StackPanel>
             </Grid>
         </DockPanel>
     </Grid>

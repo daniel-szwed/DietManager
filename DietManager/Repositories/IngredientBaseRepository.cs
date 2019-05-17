@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using DietManager.DataLayer;
 using DietManager.Models;
@@ -23,7 +24,7 @@ namespace DietManager.Repositories
 
         public Task<List<IngredientBase>> GetAllAsync()
         {
-            return _context.IngredientBase.ToListAsync();
+            return _context.IngredientBase.Where(i => !(i is Ingredient)).ToListAsync();
         }
 
         public Task<int> UpdateAsync(IngredientBase ingredient)
