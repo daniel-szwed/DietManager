@@ -13,8 +13,6 @@ namespace DietManager.Models
             Meals = new ObservableCollection<Meal>();
         }
 
-        public int Id { get; set; }
-
         public Ingredient(IngredientBase ingredientBase)
         {
             Meals = new ObservableCollection<Meal>();
