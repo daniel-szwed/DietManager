@@ -12,7 +12,6 @@ namespace DietManager.Services
 {
     public class IngredientService : IIngredientService
     {
-
         public async Task<IngredientBase> SearchIngredientAsync(string name)
         {
             using (var client = new ApiService())
@@ -65,42 +64,39 @@ namespace DietManager.Services
 
         public IngredientBase GetSum(IEnumerable<Ingredient> ingregients)
         {
-            var sumIngredient = new Ingredient();
-            ingregients.ToList().ForEach(i => {
-                foreach (var propertyInfo in i.GetType().GetProperties())
-                {
-                    if (propertyInfo.PropertyType.Name == "Single")
-                    {
-                        float value = GetNutritionFactForAmmount(i, propertyInfo.Name);
-                        float sumValue = (float)propertyInfo.GetValue(sumIngredient);
-                        propertyInfo.SetValue(sumIngredient, sumValue + value);
-                    }
-                }
-            });
-            return sumIngredient;
-        }
-
-        private float GetNutritionFactForAmmount(Ingredient ingredient, string propName)
-        {
-            float tableValue = (float)typeof(Ingredient).GetProperty(propName).GetValue(ingredient);
-            return tableValue * (ingredient.Amount / 100f);
+            return GetSum(ingregients, true);
         }
 
         public IngredientBase GetSum(IEnumerable<IngredientBase> ingregients)
         {
+            return GetSum(ingregients, false);
+        }
+
+        private IngredientBase GetSum(IEnumerable<IngredientBase> ingredients, bool dependOnAmount)
+        {
             var sumIngredient = new Ingredient();
-            ingregients.ToList().ForEach(i => {
+            ingredients.ToList().ForEach(i => {
                 foreach (var propertyInfo in i.GetType().GetProperties())
                 {
                     if (propertyInfo.PropertyType.Name == "Single")
                     {
-                        float value = (float)propertyInfo.GetValue(i);
+                        float value;
+                        if(dependOnAmount)
+                            value = GetValueForAmmount((Ingredient)i, propertyInfo.Name);
+                        else
+                            value = (float)propertyInfo.GetValue(i);
                         float sumValue = (float)propertyInfo.GetValue(sumIngredient);
                         propertyInfo.SetValue(sumIngredient, sumValue + value);
                     }
                 }
             });
             return sumIngredient;
+        }
+
+        private float GetValueForAmmount(Ingredient ingredient, string propName)
+        {
+            float tableValue = (float)typeof(Ingredient).GetProperty(propName).GetValue(ingredient);
+            return tableValue * (ingredient.Amount / 100f);
         }
     }
 }
