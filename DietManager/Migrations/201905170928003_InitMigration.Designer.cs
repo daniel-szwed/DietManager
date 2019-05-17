@@ -13,7 +13,7 @@ namespace DietManager.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201905170917179_InitMigration"; }
+            get { return "201905170928003_InitMigration"; }
         }
         
         string IMigrationMetadata.Source

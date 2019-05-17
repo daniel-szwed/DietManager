@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietManager.Models
 {
+    [Table("Ingredients")]
     public class IngredientBase : BindableBase
     {
         protected string _name;
