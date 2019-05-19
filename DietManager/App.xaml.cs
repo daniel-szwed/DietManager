@@ -1,4 +1,5 @@
-﻿using DietManager.Repositories;
+﻿using DietManager.DataLayer;
+using DietManager.Repositories;
 using DietManager.Services;
 using DietManager.ViewModels;
 using DietManager.Views;
@@ -28,6 +29,7 @@ namespace DietManager
             Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
             Container.Resolve<MainView>().Show();
             //Do the same actions for  all views and their viewmodels
+            DbSession.Instance.GetAppDbcontext().Database.CreateIfNotExists();
         }
     }
 

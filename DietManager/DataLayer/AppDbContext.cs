@@ -1,5 +1,6 @@
 namespace DietManager.DataLayer
 {
+    using DietManager.Migrations;
     using DietManager.Models;
     using System.Data.Entity;
 
@@ -14,6 +15,11 @@ namespace DietManager.DataLayer
         public AppDbContext()
             : base("name=AppDbContext")
         {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Configuration>());
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 
