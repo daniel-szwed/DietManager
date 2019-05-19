@@ -3,6 +3,7 @@ using DietManager.Models;
 using DietManager.Repositories;
 using DietManager.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 
@@ -89,7 +90,7 @@ namespace DietManager.ViewModels
                 sRes.Remove(sRes.First());
                 foreach (var param in sRes)
                 {
-                    if (!float.TryParse(param, out floatValue))
+                    if (!float.TryParse(param, NumberStyles.Any, CultureInfo.InvariantCulture, out floatValue))
                         return false;
                 }
             }
@@ -102,12 +103,12 @@ namespace DietManager.ViewModels
             var ingredient = new IngredientBase()
             {
                 Name = res[0].ToString(),
-                Kcal = float.Parse(res[1].ToString()),
-                Protein = float.Parse(res[2].ToString()),
-                Carbohydrates = float.Parse(res[3].ToString()),
-                Sugar = float.Parse(res[4].ToString()),
-                Fat = float.Parse(res[5].ToString()),
-                Saturated = float.Parse(res[6].ToString())
+                Kcal = float.Parse(res[1].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
+                Protein = float.Parse(res[2].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
+                Carbohydrates = float.Parse(res[3].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
+                Sugar = float.Parse(res[4].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
+                Fat = float.Parse(res[5].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
+                Saturated = float.Parse(res[6].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture)
             };
             var result = await _ingredientRepository.AddAsync(ingredient);
             if (result == 1)
