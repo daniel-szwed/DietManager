@@ -9,7 +9,8 @@ namespace DietManager.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(DietManager.DataLayer.AppDbContext context)

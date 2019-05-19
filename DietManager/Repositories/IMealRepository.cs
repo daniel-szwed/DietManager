@@ -6,7 +6,7 @@ namespace DietManager.Repositories
 {
     public interface IMealRepository
     {
-        Task<IEnumerable<Meal>> GetAllAsync();
+        Task<List<Meal>> GetAllAsync();
         Task<int> AddAsync(Meal meal);
         Task<int> UpdateAsync(Meal meal);
         Task<int> RemoveAsync(Meal meal);

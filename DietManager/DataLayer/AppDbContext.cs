@@ -20,6 +20,10 @@ namespace DietManager.DataLayer
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Configuration>());
+            //modelBuilder.Entity<Meal>()
+            //    .HasMany(x => x.Ingregients)
+            //    .WithOptional()
+            //    .WillCascadeOnDelete(true);
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 

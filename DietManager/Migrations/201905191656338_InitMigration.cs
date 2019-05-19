@@ -21,8 +21,11 @@ namespace DietManager.Migrations
                         Saturated = c.Single(nullable: false),
                         Amount = c.Single(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
+                        Meal_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Meals", t => t.Meal_Id, cascadeDelete: true)
+                .Index(t => t.Meal_Id);
             
             CreateTable(
                 "dbo.Meals",
@@ -33,28 +36,12 @@ namespace DietManager.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.MealIngredients",
-                c => new
-                    {
-                        Meal_Id = c.Int(nullable: false),
-                        Ingredient_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Meal_Id, t.Ingredient_Id })
-                .ForeignKey("dbo.Meals", t => t.Meal_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Ingredients", t => t.Ingredient_Id, cascadeDelete: true)
-                .Index(t => t.Meal_Id)
-                .Index(t => t.Ingredient_Id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.MealIngredients", "Ingredient_Id", "dbo.Ingredients");
-            DropForeignKey("dbo.MealIngredients", "Meal_Id", "dbo.Meals");
-            DropIndex("dbo.MealIngredients", new[] { "Ingredient_Id" });
-            DropIndex("dbo.MealIngredients", new[] { "Meal_Id" });
-            DropTable("dbo.MealIngredients");
+            DropForeignKey("dbo.Ingredients", "Meal_Id", "dbo.Meals");
+            DropIndex("dbo.Ingredients", new[] { "Meal_Id" });
             DropTable("dbo.Meals");
             DropTable("dbo.Ingredients");
         }

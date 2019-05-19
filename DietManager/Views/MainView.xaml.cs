@@ -15,7 +15,6 @@ namespace DietManager.Views
         {
             InitializeComponent();
             DataContext = ((App)Application.Current).Container.Resolve(typeof(IMainViewModel), "MainViewModel");
-
         }
 
         private void IngrAmount_TextChanged(object sender, System.EventArgs e)

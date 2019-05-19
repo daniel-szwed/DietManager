@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using DietManager.DataLayer;
@@ -27,50 +26,28 @@ namespace DietManager.Repositories
             return _context.SaveChanges();
         }
 
-        public Task<IEnumerable<Meal>> GetAllAsync()
+        public Task<List<Meal>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
-        }
-
-        private IEnumerable<Meal> GetAll()
-        {
-            return _context.Meals.ToList();
+            return _context.Meals.ToListAsync();
         }
 
         public Task<int> UpdateAsync(Meal meal)
         {
-            return Task.Run(() => Update(meal));
-        }
-
-        private int Update(Meal meal)
-        {
             _context.Entry(meal).State = EntityState.Modified;
-            try
-            {
-                return _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return -1;
-            }
+            return _context.SaveChangesAsync();
         }
 
         public Task<int> RemoveAsync(Meal meal)
         {
-            return Task.Run(() => Remove(meal));
-        }
-
-        private int Remove(Meal meal)
-        {
-            _context.Entry(meal).State = EntityState.Deleted;
-            try
+            Task<int> result = null;
+            App.Current.Dispatcher.Invoke(delegate
             {
-                return _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return -1;
-            }
+                _context.Entry(meal).State = EntityState.Deleted;
+                var ingredients = _context.Ingredients.Where(i => i.Meal.Id == meal.Id);
+                _context.Ingredients.RemoveRange(ingredients);
+                result = _context.SaveChangesAsync();
+            });
+            return result;
         }
     }
 }

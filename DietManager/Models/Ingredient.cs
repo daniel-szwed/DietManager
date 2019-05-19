@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DietManager.Models
 {
@@ -8,14 +6,10 @@ namespace DietManager.Models
     {
         private float _amount;
 
-        public Ingredient()
-        {
-            Meals = new ObservableCollection<Meal>();
-        }
+        public Ingredient() { }
 
         public Ingredient(IngredientBase ingredientBase)
         {
-            Meals = new ObservableCollection<Meal>();
             Kcal = ingredientBase.Kcal;
             Name = ingredientBase.Name;
             Protein = ingredientBase.Protein;
@@ -31,6 +25,6 @@ namespace DietManager.Models
             set { _amount = value; NotifyPropertyChanged(nameof(Amount)); }
         }
 
-        public virtual ICollection<Meal> Meals { get; set; }
+        public virtual Meal Meal { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using DietManager.Models;
 using DietManager.Repositories;
 using DietManager.Services;
 using DietManager.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace DietManager.ViewModels
         private IMealService _mealService;
         private Meal _selectedMeal;
         private Ingredient _selectedIngredient;
+        private IngredientBase _totalNutritionFacts;
 
         public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository, IMealService mealService)
         {
@@ -27,6 +29,7 @@ namespace DietManager.ViewModels
             _mealService = mealService;
             Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
             IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
+            CalcTotamNutritionFact();
         }
 
         public ObservableCollection<Meal> Meals { get; set; }
@@ -47,27 +50,13 @@ namespace DietManager.ViewModels
                 NotifyPropertyChanged(nameof(SelectedIngredient)); }
         }
 
-        private IngredientBase _totalNutritionFacts;
-
         public IngredientBase TotalNutritionFacts
         {
             get { return _totalNutritionFacts; }
             set { _totalNutritionFacts = value; NotifyPropertyChanged(nameof(TotalNutritionFacts)); }
         }
 
-
-        internal void IncreaseAmount(Ingredient ingredient)
-        {
-            ingredient.Amount++;
-            TotalNutritionFacts = _mealService.GetSum(Meals);
-        }
-
-        internal void DecreaseAmount(Ingredient ingredient)
-        {
-            ingredient.Amount--;
-            TotalNutritionFacts = _mealService.GetSum(Meals);
-        }
-
+        #region Commands
         public ICommand ManageIngredients
         {
             get { return new EagerCommand((parameters) => OnManageIngredients(parameters)); }
@@ -76,6 +65,11 @@ namespace DietManager.ViewModels
         public ICommand AddMeal
         {
             get { return new EagerCommand(p => OnAddMeal(p), p => CanAddMeal); }
+        }
+
+        public ICommand RemoveMeal
+        {
+            get { return new EagerCommand(p => OnRemoveMeal(p)); }
         }
 
         public ICommand AddIngredient
@@ -92,27 +86,32 @@ namespace DietManager.ViewModels
         {
             get { return new EagerCommand(p => OnRemoveIngredient(p), p => CanRemoveIngredient(p)); }
         }
+        #endregion
 
-        private IEnumerable<IngredientBase> GetIngredients()
+        #region Commands implementation
+
+        private void OnManageIngredients(object parameters)
         {
-            return _ingredientBaseRepository.GetAllAsync().GetAwaiter().GetResult();
+            var window = new IngredientView();
+            window.Show();
         }
 
-        private bool CanRemoveIngredient(object p)
+        public bool CanAddMeal { get { return true; } }
+        
+        private async void OnAddMeal(object p)
         {
-            var param = p as object[];
-            var meal = param[0] as Meal;
-            var ingredient = param[1] as Ingredient;
-            return meal?.Ingregients.Contains(ingredient) ?? false;
+            var meal = new Meal() { Name = p.ToString() };
+            var result = await _mealRepository.AddAsync(meal);
+            if (result == 1)
+                Meals.Add(meal);
         }
 
-        private void OnRemoveIngredient(object p)
+        private void OnRemoveMeal(object p)
         {
-            var param = p as object[];
-            var meal = param[0] as Meal;
-            var ingredient = param[1] as Ingredient;
-            meal.Ingregients.Remove(ingredient);
-            _ingredientRepository.RemoveAsync(ingredient);
+            Meal meal = p as Meal;
+            Meals.Remove(meal);
+            _mealRepository.RemoveAsync(meal);
+            CalcTotamNutritionFact();
         }
 
         private void OnRefreshInfredients(object p)
@@ -140,22 +139,48 @@ namespace DietManager.ViewModels
             ingredient.Amount = float.Parse(param[2] as string);
             meal.Ingregients.Add(ingredient);
             _mealRepository.UpdateAsync(meal);
+            CalcTotamNutritionFact();
         }
 
-        public bool CanAddMeal { get { return true; } }
-
-        private async void OnAddMeal(object p)
+        private bool CanRemoveIngredient(object p)
         {
-            var meal = new Meal() { Name = p.ToString() };
-            var result = await _mealRepository.AddAsync(meal);
-            if (result == 1)
-                Meals.Add(meal);
+            var param = p as object[];
+            var meal = param[0] as Meal;
+            var ingredient = param[1] as Ingredient;
+            return meal?.Ingregients.Contains(ingredient) ?? false;
         }
 
-        private void OnManageIngredients(object parameters)
+        private void OnRemoveIngredient(object p)
         {
-            var window = new IngredientView();
-            window.Show();
+            var param = p as object[];
+            var meal = param[0] as Meal;
+            var ingredient = param[1] as Ingredient;
+            meal.Ingregients.Remove(ingredient);
+            _ingredientRepository.RemoveAsync(ingredient);
+            CalcTotamNutritionFact();
+        }
+        #endregion
+
+        private IEnumerable<IngredientBase> GetIngredients()
+        {
+            return _ingredientBaseRepository.GetAllAsync().GetAwaiter().GetResult();
+        }
+
+        internal void IncreaseAmount(Ingredient ingredient)
+        {
+            ingredient.Amount++;
+            CalcTotamNutritionFact();
+        }
+
+        internal void DecreaseAmount(Ingredient ingredient)
+        {
+            ingredient.Amount--;
+            CalcTotamNutritionFact();
+        }
+
+        private void CalcTotamNutritionFact()
+        {
+            TotalNutritionFacts = _mealService.GetSum(Meals);
         }
     }
 }
