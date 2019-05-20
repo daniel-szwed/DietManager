@@ -15,15 +15,11 @@ namespace DietManager.Repositories
         {
             _context = DbSession.Instance.GetAppDbcontext();
         }
-        public Task<int> AddAsync(Meal meal)
-        {
-            return Task.Run(() => Add(meal));
-        }
 
-        private int Add(Meal meal)
+        public IMealRepository Add(Meal meal)
         {
             _context.Meals.Add(meal);
-            return _context.SaveChanges();
+            return this;
         }
 
         public Task<List<Meal>> GetAllAsync()
@@ -31,23 +27,29 @@ namespace DietManager.Repositories
             return _context.Meals.ToListAsync();
         }
 
-        public Task<int> UpdateAsync(Meal meal)
+        public IMealRepository Update(Meal meal)
         {
             _context.Entry(meal).State = EntityState.Modified;
-            return _context.SaveChangesAsync();
+            return this;
         }
 
-        public Task<int> RemoveAsync(Meal meal)
+        public IMealRepository Update(IEnumerable<Meal> meals)
         {
-            Task<int> result = null;
-            App.Current.Dispatcher.Invoke(delegate
-            {
-                _context.Entry(meal).State = EntityState.Deleted;
-                var ingredients = _context.Ingredients.Where(i => i.Meal.Id == meal.Id);
-                _context.Ingredients.RemoveRange(ingredients);
-                result = _context.SaveChangesAsync();
-            });
-            return result;
+            meals.ToList().ForEach(m => _context.Entry(m).State = EntityState.Modified);
+            return this;
+        }
+
+        public IMealRepository Remove(Meal meal)
+        {
+            _context.Entry(meal).State = EntityState.Deleted;
+            var ingredients = _context.Ingredients.Where(i => i.Meal.Id == meal.Id);
+            _context.Ingredients.RemoveRange(ingredients);
+            return this;
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
         }
     }
 }

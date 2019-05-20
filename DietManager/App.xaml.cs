@@ -19,14 +19,15 @@ namespace DietManager
         {
             base.OnStartup(e);
             Container = new UnityContainer();
+            Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
+            Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
             Container.RegisterType<IApiService, ApiService>();
             Container.RegisterType<IIngredientBaseRepository, IngredientBaseRepository>();
             Container.RegisterType<IIngredientRepository, IngredientRepository>();
+            Container.RegisterType<IMealRepository, MealRepository>();
             Container.RegisterType<IIngredientService, IngredientService>();
             Container.RegisterType<IMealService, MealService>();
-            Container.RegisterType<IMealRepository, MealRepository>();
-            Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
-            Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
+            Container.RegisterType<IImportExportService, FileImportExportService>();
             Container.Resolve<MainView>().Show();
             //Do the same actions for  all views and their viewmodels
             DbSession.Instance.GetAppDbcontext().Database.CreateIfNotExists();

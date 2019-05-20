@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietManager.Models
 {
     public class Ingredient : IngredientBase
     {
         private float _amount;
+
 
         public Ingredient() { }
 
@@ -25,6 +27,7 @@ namespace DietManager.Models
             set { _amount = value; NotifyPropertyChanged(nameof(Amount)); }
         }
 
+        [JsonIgnore]
         public virtual Meal Meal { get; set; }
     }
 }

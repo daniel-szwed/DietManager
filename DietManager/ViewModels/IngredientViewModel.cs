@@ -71,13 +71,13 @@ namespace DietManager.ViewModels
         {
             var ingredient = obj as IngredientBase;
             Ingredients.Remove(ingredient);
-            var result = await _ingredientRepository.RemoveAsync(ingredient);
+            var result = await _ingredientRepository.Remove(ingredient).SaveChangesAsync();
         }
 
         private async void OnUpdateIngredientAsync(object obj)
         {
             var ingredient = obj as IngredientBase;
-            var result = await _ingredientRepository.UpdateAsync(ingredient);
+            var result = await _ingredientRepository.Update(ingredient).SaveChangesAsync();
         }
 
         public bool CanAddIngredient(object parameters)
@@ -110,7 +110,7 @@ namespace DietManager.ViewModels
                 Fat = float.Parse(res[5].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
                 Saturated = float.Parse(res[6].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture)
             };
-            var result = await _ingredientRepository.AddAsync(ingredient);
+            var result = await _ingredientRepository.Add(ingredient).SaveChangesAsync();
             if (result == 1)
                 Ingredients.Add(ingredient);
         }

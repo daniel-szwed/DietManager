@@ -16,10 +16,10 @@ namespace DietManager.Repositories
             _context = DbSession.Instance.GetAppDbcontext();
         }
 
-        public Task<int> AddAsync(IngredientBase ingredient)
+        public IIngredientBaseRepository Add(IngredientBase ingredient)
         {
             _context.IngredientBase.Add(ingredient);
-            return _context.SaveChangesAsync();
+            return this;
         }
 
         public Task<List<IngredientBase>> GetAllAsync()
@@ -27,15 +27,20 @@ namespace DietManager.Repositories
             return _context.IngredientBase.Where(i => !(i is Ingredient)).ToListAsync();
         }
 
-        public Task<int> UpdateAsync(IngredientBase ingredient)
+        public IIngredientBaseRepository Update(IngredientBase ingredient)
         {
             _context.Entry(ingredient).State = EntityState.Modified;
-            return _context.SaveChangesAsync();
+            return this;
         }
 
-        public Task<int> RemoveAsync(IngredientBase ingredient)
+        public IIngredientBaseRepository Remove(IngredientBase ingredient)
         {
             _context.Entry(ingredient).State = EntityState.Deleted;
+            return this;
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
             return _context.SaveChangesAsync();
         }
     }

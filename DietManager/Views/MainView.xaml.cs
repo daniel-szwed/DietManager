@@ -37,5 +37,10 @@ namespace DietManager.Views
         {
             ((ListBox)sender).SelectedItem = null;
         }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

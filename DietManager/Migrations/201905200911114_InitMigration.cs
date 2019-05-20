@@ -24,7 +24,7 @@ namespace DietManager.Migrations
                         Meal_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Meals", t => t.Meal_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Meals", t => t.Meal_Id)
                 .Index(t => t.Meal_Id);
             
             CreateTable(

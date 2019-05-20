@@ -104,9 +104,9 @@
     <Compile Include="Converters\FloatConverter.cs" />
     <Compile Include="DataLayer\AppDbContext.cs" />
     <Compile Include="DataLayer\DbSession.cs" />
-    <Compile Include="Migrations\201905191656338_InitMigration.cs" />
-    <Compile Include="Migrations\201905191656338_InitMigration.Designer.cs">
-      <DependentUpon>201905191656338_InitMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201905200911114_InitMigration.cs" />
+    <Compile Include="Migrations\201905200911114_InitMigration.Designer.cs">
+      <DependentUpon>201905200911114_InitMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ingredient.cs" />
@@ -118,9 +118,12 @@
     <Compile Include="Repositories\IMealRepository.cs" />
     <Compile Include="Repositories\IngredientBaseRepository.cs" />
     <Compile Include="Repositories\IngredientRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\MealRepository.cs" />
     <Compile Include="Services\ApiService.cs" />
+    <Compile Include="Services\FileImportExportService.cs" />
     <Compile Include="Services\IApiService.cs" />
+    <Compile Include="Services\IImportExportService.cs" />
     <Compile Include="Services\IIngredientService.cs" />
     <Compile Include="Services\IMealService.cs" />
     <Compile Include="Services\IngredientService.cs" />
@@ -171,8 +174,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201905191656338_InitMigration.resx">
-      <DependentUpon>201905191656338_InitMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905200911114_InitMigration.resx">
+      <DependentUpon>201905200911114_InitMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

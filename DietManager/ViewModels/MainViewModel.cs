@@ -17,16 +17,18 @@ namespace DietManager.ViewModels
         private IIngredientRepository _ingredientRepository;
         private IMealRepository _mealRepository;
         private IMealService _mealService;
+        private IImportExportService _importExportService;
         private Meal _selectedMeal;
         private Ingredient _selectedIngredient;
         private IngredientBase _totalNutritionFacts;
 
-        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository, IMealService mealService)
+        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository, IMealService mealService, IImportExportService importExportService)
         {
             _ingredientBaseRepository = ingredientBaseRepository;
             _ingredientRepository = ingredientRepository;
             _mealRepository = mealRepository;
             _mealService = mealService;
+            _importExportService = importExportService;
             Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
             IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
             CalcTotamNutritionFact();
@@ -57,6 +59,21 @@ namespace DietManager.ViewModels
         }
 
         #region Commands
+        public ICommand SaveToDataBase
+        {
+            get { return new EagerCommand(p => OnSaveToDataBase(p)); }
+        }
+
+        public ICommand ImportDiet
+        {
+            get { return new EagerCommand(p => OnImportDietAsync(p)); }
+        }
+
+        public ICommand ExportDiet
+        {
+            get { return new EagerCommand(p => OnExportDiet(p)); }
+        }
+
         public ICommand ManageIngredients
         {
             get { return new EagerCommand((parameters) => OnManageIngredients(parameters)); }
@@ -89,6 +106,28 @@ namespace DietManager.ViewModels
         #endregion
 
         #region Commands implementation
+        private void OnSaveToDataBase(object p)
+        {
+            _mealRepository.Update(Meals).SaveChangesAsync();
+        }
+
+        private async void OnImportDietAsync(object p)
+        {
+            var meals = await _importExportService.ImportAsync<Meal>();
+            Meals.ToList().ForEach(m => _mealRepository.Remove(m));
+            Meals.Clear();
+            meals.ToList().ForEach(m => {
+                m.Ingregients.ToList().ForEach(i => _ingredientRepository.Add(i));
+                _mealRepository.Add(m);
+                Meals.Add(m);
+            });
+            _mealRepository.SaveChangesAsync();
+        }
+
+        private void OnExportDiet(object p)
+        {
+            _importExportService.ExportAsync(Meals);
+        }
 
         private void OnManageIngredients(object parameters)
         {
@@ -101,7 +140,7 @@ namespace DietManager.ViewModels
         private async void OnAddMeal(object p)
         {
             var meal = new Meal() { Name = p.ToString() };
-            var result = await _mealRepository.AddAsync(meal);
+            var result = await _mealRepository.Add(meal).SaveChangesAsync();
             if (result == 1)
                 Meals.Add(meal);
         }
@@ -110,7 +149,7 @@ namespace DietManager.ViewModels
         {
             Meal meal = p as Meal;
             Meals.Remove(meal);
-            _mealRepository.RemoveAsync(meal);
+            _mealRepository.Remove(meal).SaveChangesAsync();
             CalcTotamNutritionFact();
         }
 
@@ -138,7 +177,7 @@ namespace DietManager.ViewModels
             var ingredient = new Ingredient(param[1] as IngredientBase);
             ingredient.Amount = float.Parse(param[2] as string);
             meal.Ingregients.Add(ingredient);
-            _mealRepository.UpdateAsync(meal);
+            _mealRepository.Update(meal).SaveChangesAsync();
             CalcTotamNutritionFact();
         }
 
@@ -156,7 +195,7 @@ namespace DietManager.ViewModels
             var meal = param[0] as Meal;
             var ingredient = param[1] as Ingredient;
             meal.Ingregients.Remove(ingredient);
-            _ingredientRepository.RemoveAsync(ingredient);
+            _ingredientRepository.Remove(ingredient).SaveChangesAsync();
             CalcTotamNutritionFact();
         }
         #endregion

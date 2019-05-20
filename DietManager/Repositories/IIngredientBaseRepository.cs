@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace DietManager.Repositories
 {
-    public interface IIngredientBaseRepository
+    public interface IIngredientBaseRepository : IRepository
     {
         Task<List<IngredientBase>> GetAllAsync();
-        Task<int> AddAsync(IngredientBase ingredient);
-        Task<int> UpdateAsync(IngredientBase ingredient);
-        Task<int> RemoveAsync(IngredientBase ingredient);
+        IIngredientBaseRepository Add(IngredientBase ingredient);
+        IIngredientBaseRepository Update(IngredientBase ingredient);
+        IIngredientBaseRepository Remove(IngredientBase ingredient);
     }
 }
