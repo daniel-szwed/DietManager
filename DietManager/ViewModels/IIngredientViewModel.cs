@@ -1,5 +1,4 @@
-﻿using DietManager.Commands;
-using DietManager.Models;
+﻿using DietManager.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 

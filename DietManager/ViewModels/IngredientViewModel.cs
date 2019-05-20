@@ -15,39 +15,6 @@ namespace DietManager.ViewModels
         private IIngredientService _ingredientService;
         private IngredientBase _ingredietn;
 
-        public ObservableCollection<IngredientBase> Ingredients { get; set; }
-
-        public IngredientBase Ingredient
-        {
-            get { return _ingredietn; }
-            set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); }
-        }
-        
-        public ICommand AddIngredient
-        {
-            get { return new EagerCommand(
-                    (parameters) => OnAddIngredientAsync(parameters),
-                    (pararmeters) => CanAddIngredient(pararmeters)); } }
-
-        public ICommand UpdateIngredient
-        {
-            get { return new EagerCommand(
-                    (parameters) => OnUpdateIngredientAsync(parameters),
-                    (pararmeters) => CanEditIngredient(pararmeters)); } 
-        }
-
-        public ICommand RemoveIngredient
-        {
-            get { return new EagerCommand(
-                    (parameters) => OnRemoveIngredientAsync(parameters),
-                    (pararmeters) => CanEditIngredient(pararmeters)); } 
-        }
-
-        public ICommand SearchIngredient
-        {
-            get { return new EagerCommand((parameters) => OnSearchIngredient(parameters)); } 
-        }
-
         public IngredientViewModel(IIngredientBaseRepository ingredientRepository, IIngredientService ingredientService)
         {
             _ingredientRepository = ingredientRepository;
@@ -55,29 +22,41 @@ namespace DietManager.ViewModels
             Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
         }
 
+        public ObservableCollection<IngredientBase> Ingredients { get; set; }
+
+        public IngredientBase Ingredient
+        {
+            get { return _ingredietn; }
+            set { _ingredietn = value; NotifyPropertyChanged(nameof(Ingredient)); }
+        }
+
+        #region Commands
+        public ICommand SearchIngredient
+        {
+            get { return new EagerCommand((parameters) => OnSearchIngredient(parameters)); }
+        }
+
+        public ICommand AddIngredient
+        {
+            get { return new EagerCommand(p => OnAddIngredientAsync(p), p => CanAddIngredient(p)); }
+        }
+
+        public ICommand UpdateIngredient
+        {
+            get { return new EagerCommand(p => OnUpdateIngredientAsync(p), p => CanEditIngredient(p)); } 
+        }
+
+        public ICommand RemoveIngredient
+        {
+            get { return new EagerCommand(p => OnRemoveIngredientAsync(p), p => CanEditIngredient(p)); } 
+        }
+        #endregion
+
+        #region Command Implementation
         private async void OnSearchIngredient(object obj)
         {
             string name = obj as string;
             Ingredient = await _ingredientService.SearchIngredientAsync(name);
-        }
-
-        private bool CanEditIngredient(object arg)
-        {
-            var ingredient = arg as IngredientBase;
-            return arg is IngredientBase;
-        }
-
-        private async void OnRemoveIngredientAsync(object obj)
-        {
-            var ingredient = obj as IngredientBase;
-            Ingredients.Remove(ingredient);
-            var result = await _ingredientRepository.Remove(ingredient).SaveChangesAsync();
-        }
-
-        private async void OnUpdateIngredientAsync(object obj)
-        {
-            var ingredient = obj as IngredientBase;
-            var result = await _ingredientRepository.Update(ingredient).SaveChangesAsync();
         }
 
         public bool CanAddIngredient(object parameters)
@@ -114,5 +93,25 @@ namespace DietManager.ViewModels
             if (result == 1)
                 Ingredients.Add(ingredient);
         }
+
+        private bool CanEditIngredient(object arg)
+        {
+            var ingredient = arg as IngredientBase;
+            return arg is IngredientBase;
+        }
+
+        private async void OnUpdateIngredientAsync(object obj)
+        {
+            var ingredient = obj as IngredientBase;
+            var result = await _ingredientRepository.Update(ingredient).SaveChangesAsync();
+        }
+
+        private async void OnRemoveIngredientAsync(object obj)
+        {
+            var ingredient = obj as IngredientBase;
+            Ingredients.Remove(ingredient);
+            var result = await _ingredientRepository.Remove(ingredient).SaveChangesAsync();
+        }
+        #endregion
     }
 }

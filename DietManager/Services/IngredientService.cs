@@ -38,7 +38,7 @@ namespace DietManager.Services
                     mapping.Add("sugar", "nf_sugars");
                     mapping.Add("fat", "nf_total_fat");
                     mapping.Add("saturated", "nf_saturated_fat");
-                    DynamicUtil.UpdateModel(ingredient, foods, null, mapping);
+                    DynamicUtil.UpdateModel(ingredient, foods, mapping: mapping);
                     var serving_weight_grams = (long)foods.serving_weight_grams.Value;
                     Recalc(ingredient, serving_weight_grams);
                     return ingredient;
@@ -86,7 +86,8 @@ namespace DietManager.Services
                         else
                             value = (float)propertyInfo.GetValue(i);
                         float sumValue = (float)propertyInfo.GetValue(sumIngredient);
-                        propertyInfo.SetValue(sumIngredient, sumValue + value);
+                        var rounded = Math.Round(value, 2);
+                        propertyInfo.SetValue(sumIngredient, sumValue + (float)rounded);
                     }
                 }
             });

@@ -8,21 +8,6 @@ namespace DietManager.Services
 {
     public class FileImportExportService : IImportExportService
     {
-        public async void ExportAsync<T>(IEnumerable<T> collection)
-        {
-            var json = JsonConvert.SerializeObject(collection);
-            SaveFileDialog dialog = new SaveFileDialog()
-            {
-                Filter = "JSON Files(*.json)|*.json|All(*.*)|*"
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                using (StreamWriter writer = new StreamWriter(dialog.FileName))
-                {
-                    await writer.WriteLineAsync(json);
-                }
-            }
-        }
 
         public async Task<IEnumerable<T>> ImportAsync<T>()
         {
@@ -39,6 +24,22 @@ namespace DietManager.Services
                 }
             }
             return null;
+        }
+
+        public async void ExportAsync<T>(IEnumerable<T> collection)
+        {
+            var json = JsonConvert.SerializeObject(collection);
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "JSON Files(*.json)|*.json|All(*.*)|*"
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                using (StreamWriter writer = new StreamWriter(dialog.FileName))
+                {
+                    await writer.WriteLineAsync(json);
+                }
+            }
         }
     }
 }

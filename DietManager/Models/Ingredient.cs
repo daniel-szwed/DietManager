@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietManager.Models
 {
     public class Ingredient : IngredientBase
     {
         private float _amount;
-
 
         public Ingredient() { }
 

@@ -104,7 +104,7 @@ namespace DietManager.ViewModels
         }
         #endregion
 
-        #region Commands implementation
+        #region Commands Implementation
         private void OnSaveToDataBase(object p)
         {
             _mealRepository.Update(Meals).SaveChangesAsync();

@@ -1,5 +1,6 @@
 ﻿namespace DietManager.DataLayer
 {
+    // TODO: make it thread safe according to https://csharpindepth.com/articles/singleton
     public class DbSession
     {
         private static DbSession _instance;
