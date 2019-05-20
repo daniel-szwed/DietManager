@@ -95,9 +95,14 @@
 
                     <StackPanel Orientation="Horizontal" Margin="5,10,5,10">
                         <Label>Znajdź</Label>
-                        <TextBox Name="SearchInput" Width="200"></TextBox>
-                        <Button Name="SearchButton" Width="26" Command="{Binding SearchIngredient}"
-                        CommandParameter="{Binding Text, ElementName=SearchInput}">
+                        <TextBox Name="SearchInput" Width="200"/>
+                        <Button Name="SearchButton" Width="26" Command="{Binding SearchIngredient}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
+                                    <Binding ElementName="SearchButton"></Binding>
+                                    <Binding Path="Text" ElementName="SearchInput"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
                             <Image Source="{StaticResource ResourceKey=searchImg}" Width="20"/>
                         </Button>
                     </StackPanel>

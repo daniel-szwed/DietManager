@@ -1,5 +1,7 @@
 ﻿using DietManager.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DietManager.Views
 {

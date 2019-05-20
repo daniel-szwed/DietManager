@@ -5,6 +5,7 @@ using DietManager.Services;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DietManager.ViewModels
@@ -55,8 +56,11 @@ namespace DietManager.ViewModels
         #region Command Implementation
         private async void OnSearchIngredient(object obj)
         {
-            string name = obj as string;
+            var parameters = obj as object [];
+            var sender = parameters[0] as Button;
+            var name = parameters[1].ToString();
             Ingredient = await _ingredientService.SearchIngredientAsync(name);
+            sender.MoveFocus(new TraversalRequest(FocusNavigationDirection.Left));
         }
 
         public bool CanAddIngredient(object parameters)
