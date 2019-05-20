@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal">
             <Label Width="110" Content="{Binding ElementName=FloatInputControl, Path=Label}"></Label>
-            <TextBox Width="180" Text="{Binding ElementName=FloatInputControl, Path=Text}" Name="InputTextBox" GotFocus="InputTextBox_GotFocus" KeyUp="InputTextBox_KeyUp">
+            <TextBox Width="180" Text="{Binding ElementName=FloatInputControl, Path=Text}" Name="InputTextBox" GotFocus="InputTextBox_GotFocus" KeyUp="InputTextBox_KeyUp" TextChanged="InputTextBox_TextChanged">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="BorderBrush" Value="Gray"/>

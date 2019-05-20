@@ -48,5 +48,12 @@ namespace DietManager.Controls
             textBox.Text = textBox.Text.Replace(',','.');
             textBox.CaretIndex = textBox.Text.Length;
         }
+
+        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged.Invoke(sender, e);
+            var textBox = ((TextBox)sender);
+            textBox.CaretIndex = textBox.Text.Length;
+        }
     }
 }
