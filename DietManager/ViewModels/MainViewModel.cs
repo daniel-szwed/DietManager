@@ -3,7 +3,6 @@ using DietManager.Models;
 using DietManager.Repositories;
 using DietManager.Services;
 using DietManager.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace DietManager.ViewModels
             _importExportService = importExportService;
             Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
             IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
 
         public ObservableCollection<Meal> Meals { get; set; }
@@ -122,6 +121,7 @@ namespace DietManager.ViewModels
                 Meals.Add(m);
             });
             _mealRepository.SaveChangesAsync();
+            CalcTotalNutritionFact();
         }
 
         private void OnExportDiet(object p)
@@ -150,7 +150,7 @@ namespace DietManager.ViewModels
             Meal meal = p as Meal;
             Meals.Remove(meal);
             _mealRepository.Remove(meal).SaveChangesAsync();
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
 
         private void OnRefreshInfredients(object p)
@@ -178,7 +178,7 @@ namespace DietManager.ViewModels
             ingredient.Amount = float.Parse(param[2] as string);
             meal.Ingregients.Add(ingredient);
             _mealRepository.Update(meal).SaveChangesAsync();
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
 
         private bool CanRemoveIngredient(object p)
@@ -196,7 +196,7 @@ namespace DietManager.ViewModels
             var ingredient = param[1] as Ingredient;
             meal.Ingregients.Remove(ingredient);
             _ingredientRepository.Remove(ingredient).SaveChangesAsync();
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
         #endregion
 
@@ -208,16 +208,16 @@ namespace DietManager.ViewModels
         internal void IncreaseAmount(Ingredient ingredient)
         {
             ingredient.Amount++;
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
 
         internal void DecreaseAmount(Ingredient ingredient)
         {
             ingredient.Amount--;
-            CalcTotamNutritionFact();
+            CalcTotalNutritionFact();
         }
 
-        private void CalcTotamNutritionFact()
+        private void CalcTotalNutritionFact()
         {
             TotalNutritionFacts = _mealService.GetSum(Meals);
         }
