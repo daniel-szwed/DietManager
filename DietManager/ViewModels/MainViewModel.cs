@@ -205,6 +205,11 @@ namespace DietManager.ViewModels
             return _ingredientBaseRepository.GetAllAsync().GetAwaiter().GetResult();
         }
 
+        private void CalcTotalNutritionFact()
+        {
+            TotalNutritionFacts = _mealService.GetSum(Meals);
+        }
+
         internal void IncreaseAmount(Ingredient ingredient)
         {
             ingredient.Amount++;
@@ -215,11 +220,6 @@ namespace DietManager.ViewModels
         {
             ingredient.Amount--;
             CalcTotalNutritionFact();
-        }
-
-        private void CalcTotalNutritionFact()
-        {
-            TotalNutritionFacts = _mealService.GetSum(Meals);
         }
     }
 }

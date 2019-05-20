@@ -41,9 +41,9 @@ namespace DietManager.Repositories
 
         public IMealRepository Remove(Meal meal)
         {
+            var ingredientsToRemove = _context.Ingredients.Where(i => i.Meal.Id == meal.Id);
+            _context.Ingredients.RemoveRange(ingredientsToRemove);
             _context.Entry(meal).State = EntityState.Deleted;
-            var ingredients = _context.Ingredients.Where(i => i.Meal.Id == meal.Id);
-            _context.Ingredients.RemoveRange(ingredients);
             return this;
         }
 
