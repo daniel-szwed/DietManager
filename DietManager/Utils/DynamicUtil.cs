@@ -36,12 +36,17 @@ namespace DietManager.Utils
                 {
                     var value = ((JObject)body).GetValue(bodyPropertyName);
                     if (value.Type == JTokenType.Null)
-                        continue;
-                    string stringValue = value.ToString();
-                    if (propertyInfo.PropertyType.GetInterfaces().Contains(typeof(IConvertible)))
-                        propertyInfo.SetValue(model, Convert.ChangeType(stringValue, propertyInfo.PropertyType));
+                    {
+                        propertyInfo.SetValue(model, null);
+                    }
                     else
-                        propertyInfo.SetValue(model, JsonConvert.DeserializeObject(stringValue, propertyInfo.PropertyType));
+                    {
+                        string stringValue = value.ToString();
+                        if (propertyInfo.PropertyType.GetInterfaces().Contains(typeof(IConvertible)))
+                            propertyInfo.SetValue(model, Convert.ChangeType(stringValue, propertyInfo.PropertyType));
+                        else
+                            propertyInfo.SetValue(model, JsonConvert.DeserializeObject(stringValue, propertyInfo.PropertyType));
+                    }
                     updated.Add(propName);
                 }
             }
