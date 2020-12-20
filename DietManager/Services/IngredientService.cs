@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ArbreSoft.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using DietManager.Models;
-using DietManager.Utils;
 using Newtonsoft.Json;
 
 namespace DietManager.Services
