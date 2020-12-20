@@ -1,5 +1,7 @@
 ﻿using DietManager.Models;
 using DietManager.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,10 +13,10 @@ namespace DietManager.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView()
+        public MainView(IServiceProvider provider)
         {
             InitializeComponent();
-            DataContext = ((App)Application.Current).Container.Resolve(typeof(IMainViewModel), "MainViewModel");
+            DataContext = provider.GetService<IMainViewModel>();
         }
 
         private void IngrAmount_TextChanged(object sender, System.EventArgs e)

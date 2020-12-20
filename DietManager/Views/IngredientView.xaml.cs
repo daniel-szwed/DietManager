@@ -1,7 +1,7 @@
 ﻿using DietManager.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace DietManager.Views
 {
@@ -10,10 +10,10 @@ namespace DietManager.Views
     /// </summary>
     public partial class IngredientView : Window
     {
-        public IngredientView()
+        public IngredientView(IServiceProvider provider)
         {
             InitializeComponent();
-            DataContext = ((App)Application.Current).Container.Resolve(typeof(IIngredientViewModel), "IngredientViewModel");
+            DataContext = provider.GetService<IIngredientViewModel>();
         }
     }
 }

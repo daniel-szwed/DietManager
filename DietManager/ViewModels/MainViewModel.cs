@@ -7,27 +7,35 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System;
 
 namespace DietManager.ViewModels
 {
     public class MainViewModel : BindableBase, IMainViewModel
     {
-        private IIngredientBaseRepository _ingredientBaseRepository;
-        private IIngredientRepository _ingredientRepository;
-        private IMealRepository _mealRepository;
-        private IMealService _mealService;
-        private IImportExportService _importExportService;
-        private Meal _selectedMeal;
-        private Ingredient _selectedIngredient;
-        private IngredientBase _totalNutritionFacts;
+        private readonly IServiceProvider provider;
+        private IIngredientBaseRepository ingredientBaseRepository;
+        private IIngredientRepository ingredientRepository;
+        private IMealRepository mealRepository;
+        private IMealService mealService;
+        private IImportExportService importExportService;
+        private Meal selectedMeal;
+        private Ingredient selectedIngredient;
+        private IngredientBase totalNutritionFacts;
 
-        public MainViewModel(IMealRepository mealRepository, IIngredientBaseRepository ingredientBaseRepository, IIngredientRepository ingredientRepository, IMealService mealService, IImportExportService importExportService)
+        public MainViewModel(IServiceProvider provider,
+            IMealRepository mealRepository,
+            IIngredientBaseRepository ingredientBaseRepository, 
+            IIngredientRepository ingredientRepository, 
+            IMealService mealService, 
+            IImportExportService importExportService)
         {
-            _ingredientBaseRepository = ingredientBaseRepository;
-            _ingredientRepository = ingredientRepository;
-            _mealRepository = mealRepository;
-            _mealService = mealService;
-            _importExportService = importExportService;
+            this.provider = provider;
+            this.ingredientBaseRepository = ingredientBaseRepository;
+            this.ingredientRepository = ingredientRepository;
+            this.mealRepository = mealRepository;
+            this.mealService = mealService;
+            this.importExportService = importExportService;
             Meals = new ObservableCollection<Meal>(mealRepository.Find(x => true).GetAwaiter().GetResult());
             IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
             CalcTotalNutritionFact();
@@ -38,23 +46,23 @@ namespace DietManager.ViewModels
         
         public Meal SelectedMeal
         {
-            get { return _selectedMeal; }
-            set { _selectedMeal = value; NotifyPropertyChanged(nameof(SelectedMeal)); }
+            get { return selectedMeal; }
+            set { selectedMeal = value; NotifyPropertyChanged(nameof(SelectedMeal)); }
         }
 
         public Ingredient SelectedIngredient
         {
-            get { return _selectedIngredient; }
-            set { _selectedIngredient = value;
-                if(_selectedIngredient != null)
-                    SelectedMeal = Meals.First(m => m.Ingregients.Contains(_selectedIngredient));
+            get { return selectedIngredient; }
+            set { selectedIngredient = value;
+                if(selectedIngredient != null)
+                    SelectedMeal = Meals.First(m => m.Ingregients.Contains(selectedIngredient));
                 NotifyPropertyChanged(nameof(SelectedIngredient)); }
         }
 
         public IngredientBase TotalNutritionFacts
         {
-            get { return _totalNutritionFacts; }
-            set { _totalNutritionFacts = value; NotifyPropertyChanged(nameof(TotalNutritionFacts)); }
+            get { return totalNutritionFacts; }
+            set { totalNutritionFacts = value; NotifyPropertyChanged(nameof(TotalNutritionFacts)); }
         }
 
         #region Commands
@@ -107,42 +115,42 @@ namespace DietManager.ViewModels
         #region Commands Implementation
         private void OnSaveToDataBase(object p)
         {
-            _mealRepository.UpdateRange(Meals);
-            _mealRepository.SaveChangesAsync();
+            mealRepository.UpdateRange(Meals);
+            mealRepository.SaveChangesAsync();
         }
 
         private async void OnImportDietAsync(object p)
         {
-            var meals = await _importExportService.ImportAsync<Meal>();
-            Meals.ToList().ForEach(m => _mealRepository.Remove(m));
+            var meals = await importExportService.ImportAsync<Meal>();
+            Meals.ToList().ForEach(m => mealRepository.Remove(m));
             Meals.Clear();
             meals.ToList().ForEach(m => {
-                m.Ingregients.ToList().ForEach(i => _ingredientRepository.Add(i));
-                _mealRepository.Add(m);
+                m.Ingregients.ToList().ForEach(i => ingredientRepository.Add(i));
+                mealRepository.Add(m);
                 Meals.Add(m);
             });
-            _mealRepository.SaveChangesAsync();
+            mealRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
 
         private void OnExportDiet(object p)
         {
-            _importExportService.ExportAsync(Meals);
+            importExportService.ExportAsync(Meals);
         }
 
         private void OnManageIngredients(object parameters)
         {
-            var window = new IngredientView();
+            var window = new IngredientView(provider);
             window.Show();
         }
-
+       
         public bool CanAddMeal { get { return true; } }
         
         private async void OnAddMeal(object p)
         {
             var meal = new Meal() { Name = p.ToString() };
-            _mealRepository.Add(meal);
-            var result = await _mealRepository.SaveChangesAsync();
+            mealRepository.Add(meal);
+            var result = await mealRepository.SaveChangesAsync();
             if (result == 1)
                 Meals.Add(meal);
         }
@@ -151,8 +159,8 @@ namespace DietManager.ViewModels
         {
             Meal meal = p as Meal;
             Meals.Remove(meal);
-            _mealRepository.Remove(meal);
-            _mealRepository.SaveChangesAsync();
+            mealRepository.Remove(meal);
+            mealRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
 
@@ -180,8 +188,8 @@ namespace DietManager.ViewModels
             var ingredient = new Ingredient(param[1] as IngredientBase);
             ingredient.Amount = float.Parse(param[2] as string);
             meal.Ingregients.Add(ingredient);
-            _mealRepository.Update(meal);
-            _mealRepository.SaveChangesAsync();
+            mealRepository.Update(meal);
+            mealRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
 
@@ -199,20 +207,20 @@ namespace DietManager.ViewModels
             var meal = param[0] as Meal;
             var ingredient = param[1] as Ingredient;
             meal.Ingregients.Remove(ingredient);
-            _ingredientRepository.Remove(ingredient);
-            _ingredientRepository.SaveChangesAsync();
+            ingredientRepository.Remove(ingredient);
+            ingredientRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
         #endregion
 
         private IEnumerable<IngredientBase> GetIngredients()
         {
-            return _ingredientBaseRepository.Find(x => true).GetAwaiter().GetResult();
+            return ingredientBaseRepository.Find(x => true).GetAwaiter().GetResult();
         }
 
         private void CalcTotalNutritionFact()
         {
-            TotalNutritionFacts = _mealService.GetSum(Meals);
+            TotalNutritionFacts = mealService.GetSum(Meals);
         }
 
         internal void IncreaseAmount(Ingredient ingredient)

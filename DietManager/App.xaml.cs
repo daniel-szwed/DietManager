@@ -3,8 +3,8 @@ using Data.Repositories;
 using DietManager.Services;
 using DietManager.ViewModels;
 using DietManager.Views;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using Unity;
 
 namespace DietManager
 {
@@ -13,24 +13,23 @@ namespace DietManager
     /// </summary>
     public partial class App : Application
     {
-        public IUnityContainer Container { get; set; }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Container = new UnityContainer();
-            Container.RegisterType<AppDbContext>();
-            Container.Resolve<AppDbContext>().Migrate();
-            Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
-            Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
-            Container.RegisterType<IApiService, ApiService>();
-            Container.RegisterType<IIngredientBaseRepository, IngredientBaseRepository>();
-            Container.RegisterType<IIngredientRepository, IngredientRepository>();
-            Container.RegisterType<IMealRepository, MealRepository>();
-            Container.RegisterType<IIngredientService, IngredientService>();
-            Container.RegisterType<IMealService, MealService>();
-            Container.RegisterType<IImportExportService, FileImportExportService>();
-            Container.Resolve<MainView>().Show();
+            var provider = new ServiceCollection()
+            .AddDbContext<AppDbContext>()
+            .AddTransient<IMainViewModel, MainViewModel>()
+            .AddTransient<IIngredientViewModel, IngredientViewModel>()
+            .AddTransient<IApiService, ApiService>()
+            .AddTransient<IIngredientBaseRepository, IngredientBaseRepository>()
+            .AddTransient<IIngredientRepository, IngredientRepository>()
+            .AddTransient<IMealRepository, MealRepository>()
+            .AddTransient<IIngredientService, IngredientService>()
+            .AddTransient<IMealService, MealService>()
+            .AddTransient<IImportExportService, FileImportExportService>()
+            .BuildServiceProvider();
+            provider.GetService<AppDbContext>().Migrate();
+            new MainView(provider).Show();
         }
     }
 
