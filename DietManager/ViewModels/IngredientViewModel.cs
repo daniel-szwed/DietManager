@@ -1,6 +1,6 @@
 ﻿using DietManager.Commands;
 using DietManager.Models;
-using DietManager.Repositories;
+using Data.Repositories;
 using DietManager.Services;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -20,7 +20,7 @@ namespace DietManager.ViewModels
         {
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
-            Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.GetAllAsync().GetAwaiter().GetResult());
+            Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.Find(x => true).GetAwaiter().GetResult());
         }
 
         public ObservableCollection<IngredientBase> Ingredients { get; set; }
@@ -93,7 +93,8 @@ namespace DietManager.ViewModels
                 Fat = float.Parse(res[5].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture),
                 Saturated = float.Parse(res[6].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture)
             };
-            var result = await _ingredientRepository.Add(ingredient).SaveChangesAsync();
+            _ingredientRepository.Add(ingredient);
+            var result = await _ingredientRepository.SaveChangesAsync();
             if (result == 1)
                 Ingredients.Add(ingredient);
         }
@@ -107,14 +108,16 @@ namespace DietManager.ViewModels
         private async void OnUpdateIngredientAsync(object obj)
         {
             var ingredient = obj as IngredientBase;
-            var result = await _ingredientRepository.Update(ingredient).SaveChangesAsync();
+            _ingredientRepository.Update(ingredient);
+            var result = await _ingredientRepository.SaveChangesAsync();
         }
 
         private async void OnRemoveIngredientAsync(object obj)
         {
             var ingredient = obj as IngredientBase;
             Ingredients.Remove(ingredient);
-            var result = await _ingredientRepository.Remove(ingredient).SaveChangesAsync();
+            _ingredientRepository.Remove(ingredient);
+            var result = await _ingredientRepository.SaveChangesAsync();
         }
         #endregion
     }

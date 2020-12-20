@@ -1,6 +1,6 @@
 ﻿using DietManager.Commands;
 using DietManager.Models;
-using DietManager.Repositories;
+using Data.Repositories;
 using DietManager.Services;
 using DietManager.Views;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace DietManager.ViewModels
             _mealRepository = mealRepository;
             _mealService = mealService;
             _importExportService = importExportService;
-            Meals = new ObservableCollection<Meal>(mealRepository.GetAllAsync().GetAwaiter().GetResult());
+            Meals = new ObservableCollection<Meal>(mealRepository.Find(x => true).GetAwaiter().GetResult());
             IngredientBase = new ObservableCollection<IngredientBase>(GetIngredients());
             CalcTotalNutritionFact();
         }
@@ -107,7 +107,8 @@ namespace DietManager.ViewModels
         #region Commands Implementation
         private void OnSaveToDataBase(object p)
         {
-            _mealRepository.Update(Meals).SaveChangesAsync();
+            _mealRepository.UpdateRange(Meals);
+            _mealRepository.SaveChangesAsync();
         }
 
         private async void OnImportDietAsync(object p)
@@ -140,7 +141,8 @@ namespace DietManager.ViewModels
         private async void OnAddMeal(object p)
         {
             var meal = new Meal() { Name = p.ToString() };
-            var result = await _mealRepository.Add(meal).SaveChangesAsync();
+            _mealRepository.Add(meal);
+            var result = await _mealRepository.SaveChangesAsync();
             if (result == 1)
                 Meals.Add(meal);
         }
@@ -149,7 +151,8 @@ namespace DietManager.ViewModels
         {
             Meal meal = p as Meal;
             Meals.Remove(meal);
-            _mealRepository.Remove(meal).SaveChangesAsync();
+            _mealRepository.Remove(meal);
+            _mealRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
 
@@ -177,7 +180,8 @@ namespace DietManager.ViewModels
             var ingredient = new Ingredient(param[1] as IngredientBase);
             ingredient.Amount = float.Parse(param[2] as string);
             meal.Ingregients.Add(ingredient);
-            _mealRepository.Update(meal).SaveChangesAsync();
+            _mealRepository.Update(meal);
+            _mealRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
 
@@ -195,14 +199,15 @@ namespace DietManager.ViewModels
             var meal = param[0] as Meal;
             var ingredient = param[1] as Ingredient;
             meal.Ingregients.Remove(ingredient);
-            _ingredientRepository.Remove(ingredient).SaveChangesAsync();
+            _ingredientRepository.Remove(ingredient);
+            _ingredientRepository.SaveChangesAsync();
             CalcTotalNutritionFact();
         }
         #endregion
 
         private IEnumerable<IngredientBase> GetIngredients()
         {
-            return _ingredientBaseRepository.GetAllAsync().GetAwaiter().GetResult();
+            return _ingredientBaseRepository.Find(x => true).GetAwaiter().GetResult();
         }
 
         private void CalcTotalNutritionFact()

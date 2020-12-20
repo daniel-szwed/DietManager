@@ -1,7 +1,7 @@
 ﻿using DietManager.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DietManager.Data
+namespace Data.Context
 {
     public class AppDbContext : DbContext
     {

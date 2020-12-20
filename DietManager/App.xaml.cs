@@ -1,5 +1,5 @@
-﻿using DietManager.Data;
-using DietManager.Repositories;
+﻿using Data.Context;
+using Data.Repositories;
 using DietManager.Services;
 using DietManager.ViewModels;
 using DietManager.Views;

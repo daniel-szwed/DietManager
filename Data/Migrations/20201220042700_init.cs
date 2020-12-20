@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DietManager.Migrations
+namespace Data.Migrations
 {
     public partial class init : Migration
     {
