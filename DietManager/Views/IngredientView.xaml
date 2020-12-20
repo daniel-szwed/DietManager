@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:DietManager.Views"
         xmlns:viewmodels="clr-namespace:DietManager.ViewModels"
         xmlns:custom="clr-namespace:DietManager.Controls"
-        xmlns:properties="clr-namespace:DietManager.Properties"
         mc:Ignorable="d"
         Title="IngredientView" Height="500" Width="900">
     <Window.Resources>

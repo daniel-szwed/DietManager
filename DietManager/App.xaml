@@ -1,9 +1,8 @@
 ﻿<Application x:Class="DietManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DietManager"
              xmlns:converters="clr-namespace:DietManager.Converters">
-    <!--StartupUri="Views/MainView.xaml">-->
+    <!--StartupUri="MainWindow.xaml">-->
     <Application.Resources>
         <converters:DefaultMultiValueConverter x:Key="DefaultMultiValueConverter"/>
         <converters:FloatConverter x:Key="FloatConverter"/>

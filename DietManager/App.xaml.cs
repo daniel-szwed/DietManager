@@ -1,4 +1,4 @@
-﻿using DietManager.DataLayer;
+﻿using DietManager.Data;
 using DietManager.Repositories;
 using DietManager.Services;
 using DietManager.ViewModels;
@@ -19,6 +19,8 @@ namespace DietManager
         {
             base.OnStartup(e);
             Container = new UnityContainer();
+            Container.RegisterType<AppDbContext>();
+            Container.Resolve<AppDbContext>().Migrate();
             Container.RegisterType<IMainViewModel, MainViewModel>("MainViewModel");
             Container.RegisterType<IIngredientViewModel, IngredientViewModel>("IngredientViewModel");
             Container.RegisterType<IApiService, ApiService>();
@@ -29,8 +31,6 @@ namespace DietManager
             Container.RegisterType<IMealService, MealService>();
             Container.RegisterType<IImportExportService, FileImportExportService>();
             Container.Resolve<MainView>().Show();
-            //Do the same actions for  all views and their viewmodels
-            DbSession.Instance.GetAppDbcontext().Database.CreateIfNotExists();
         }
     }
 
