@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DietManager.Services
 {
-    public interface IImportExportService
+    public interface ITransferService
     {
         Task<IEnumerable<T>> ImportAsync<T>();
         void ExportAsync<T>(IEnumerable<T> collection);

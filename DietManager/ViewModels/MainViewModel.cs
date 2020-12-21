@@ -18,7 +18,7 @@ namespace DietManager.ViewModels
         private IIngredientRepository ingredientRepository;
         private IMealRepository mealRepository;
         private IMealService mealService;
-        private IImportExportService importExportService;
+        private ITransferService importExportService;
         private Meal selectedMeal;
         private Ingredient selectedIngredient;
         private IngredientBase totalNutritionFacts;
@@ -28,7 +28,7 @@ namespace DietManager.ViewModels
             IIngredientBaseRepository ingredientBaseRepository, 
             IIngredientRepository ingredientRepository, 
             IMealService mealService, 
-            IImportExportService importExportService)
+            ITransferService importExportService)
         {
             this.provider = provider;
             this.ingredientBaseRepository = ingredientBaseRepository;

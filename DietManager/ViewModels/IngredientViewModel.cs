@@ -20,7 +20,7 @@ namespace DietManager.ViewModels
         {
             _ingredientRepository = ingredientRepository;
             _ingredientService = ingredientService;
-            Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.Find(x => true).GetAwaiter().GetResult());
+            Ingredients = new ObservableCollection<IngredientBase>(ingredientRepository.Find(x => !(x is Ingredient)).GetAwaiter().GetResult());
         }
 
         public ObservableCollection<IngredientBase> Ingredients { get; set; }

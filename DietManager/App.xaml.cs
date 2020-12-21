@@ -20,13 +20,12 @@ namespace DietManager
             .AddDbContext<AppDbContext>()
             .AddTransient<IMainViewModel, MainViewModel>()
             .AddTransient<IIngredientViewModel, IngredientViewModel>()
-            .AddTransient<IApiService, ApiService>()
             .AddTransient<IIngredientBaseRepository, IngredientBaseRepository>()
             .AddTransient<IIngredientRepository, IngredientRepository>()
             .AddTransient<IMealRepository, MealRepository>()
             .AddTransient<IIngredientService, IngredientService>()
             .AddTransient<IMealService, MealService>()
-            .AddTransient<IImportExportService, FileImportExportService>()
+            .AddTransient<ITransferService, FileService>()
             .BuildServiceProvider();
             provider.GetService<AppDbContext>().Migrate();
             new MainView(provider).Show();

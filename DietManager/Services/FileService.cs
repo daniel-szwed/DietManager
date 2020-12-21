@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DietManager.Services
 {
-    public class FileImportExportService : IImportExportService
+    public class FileService : ITransferService
     {
 
         public async Task<IEnumerable<T>> ImportAsync<T>()

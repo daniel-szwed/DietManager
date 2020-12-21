@@ -14,17 +14,19 @@ namespace DietManager.Services
     {
         public async Task<IngredientBase> SearchIngredientAsync(string name)
         {
-            using (var client = new ApiService())
+            using (var client = new ApiClient())
             {
                 var body = new { query = name, timezone = "US/Eastern" };
+                var request = new RequestBuilder()
+                    .SetUri("https://trackapi.nutritionix.com/v2/natural/nutrients")
+                    .SetMethod(HttpMethod.Post)
+                    .AddHeader("x-app-id", "e0f10739")
+                    .AddHeader("x-app-key", "05ab0d773ba54b5661b68ae4e7aec65d")
+                    .SetStringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json")
+                    .Build();
                 var response = await client
-                            .SetBaseAddress("https://trackapi.nutritionix.com")
-                            .SetMethod(HttpMethod.Post)
-                            .AddHeader("x-app-id", "e0f10739")
-                            .AddHeader("x-app-key", "05ab0d773ba54b5661b68ae4e7aec65d")
-                            .SetStringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json")
-                            .SetTimeout(15000)
-                            .SendRequestAsync("v2/natural/nutrients");
+                    .SetTimeout(15000)
+                    .SendRequestAsync(request);
                 dynamic responseBody = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
                 if (DynamicUtil.HasProperty(responseBody, "foods"))
                 {

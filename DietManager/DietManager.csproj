@@ -7,8 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\refresh.png" />
+    <None Remove="Resources\remove.png" />
+    <None Remove="Resources\search.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Utils\utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\remove.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\search.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
