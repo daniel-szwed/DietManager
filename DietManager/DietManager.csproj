@@ -1,32 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\refresh.png" />
-    <None Remove="Resources\remove.png" />
-    <None Remove="Resources\search.png" />
+    <ProjectReference Include="..\ArbreSoft.DietManager.Presentation\ArbreSoft.DietManager.Presentation.csproj" />
+    <ProjectReference Include="..\Utils\ArbreSoft.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj" />
-    <ProjectReference Include="..\Utils\utils.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\refresh.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\remove.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\search.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 
 </Project>

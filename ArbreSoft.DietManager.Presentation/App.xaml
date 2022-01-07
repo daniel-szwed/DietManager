@@ -1,0 +1,10 @@
+﻿<Application x:Class="ArbreSoft.DietManager.Presentation.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ArbreSoft.DietManager.Presentation" 
+             xmlns:converters="clr-namespace:ArbreSoft.DietManager.Presentation.Converters">
+    <Application.Resources>
+        <converters:DefaultMultiValueConverter x:Key="DefaultMultiValueConverter"/>
+        <converters:FloatConverter x:Key="FloatConverter"/>
+    </Application.Resources>
+</Application>

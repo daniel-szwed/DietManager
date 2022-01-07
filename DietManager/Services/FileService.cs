@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DietManager.Services
@@ -20,7 +20,7 @@ namespace DietManager.Services
                 using (StreamReader reader = new StreamReader(dialog.FileName))
                 {
                     var serializedData = await reader.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<IEnumerable<T>>(serializedData);
+                    return JsonSerializer.Deserialize<IEnumerable<T>>(serializedData);
                 }
             }
             return null;
@@ -28,7 +28,7 @@ namespace DietManager.Services
 
         public async void ExportAsync<T>(IEnumerable<T> collection)
         {
-            var json = JsonConvert.SerializeObject(collection);
+            var json = JsonSerializer.Serialize(collection);
             SaveFileDialog dialog = new SaveFileDialog()
             {
                 Filter = "JSON Files(*.json)|*.json|All(*.*)|*"
