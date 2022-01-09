@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietManager", "DietManager\DietManager.csproj", "{68121CF7-1693-4A16-8393-11258E76CC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietManager", "src\DietManager\DietManager.csproj", "{68121CF7-1693-4A16-8393-11258E76CC22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.Utils", "Utils\ArbreSoft.Utils.csproj", "{A45674C4-C62A-404B-B521-77D163A06B02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.Utils", "src\Utils\ArbreSoft.Utils.csproj", "{A45674C4-C62A-404B-B521-77D163A06B02}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Domain", "ArbreSoft.DietManager.Domain\ArbreSoft.DietManager.Domain.csproj", "{D4B568CA-BFDA-4AE8-BCD8-C6C55556532D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Domain", "src\ArbreSoft.DietManager.Domain\ArbreSoft.DietManager.Domain.csproj", "{D4B568CA-BFDA-4AE8-BCD8-C6C55556532D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Application", "ArbreSoft.DietManager.Application\ArbreSoft.DietManager.Application.csproj", "{BF3B6441-29D7-40F7-881A-A30DBEE031C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Application", "src\ArbreSoft.DietManager.Application\ArbreSoft.DietManager.Application.csproj", "{BF3B6441-29D7-40F7-881A-A30DBEE031C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Infrastructure", "ArbreSoft.DietManager.Infrastructure\ArbreSoft.DietManager.Infrastructure.csproj", "{4F28B3CD-238C-428B-9DD9-72475464E5F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Infrastructure", "src\ArbreSoft.DietManager.Infrastructure\ArbreSoft.DietManager.Infrastructure.csproj", "{4F28B3CD-238C-428B-9DD9-72475464E5F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Presentation", "ArbreSoft.DietManager.Presentation\ArbreSoft.DietManager.Presentation.csproj", "{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArbreSoft.DietManager.Presentation", "src\ArbreSoft.DietManager.Presentation\ArbreSoft.DietManager.Presentation.csproj", "{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D6048018-A3CF-4137-BFEA-3EBD2845EA68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{10F16AA3-7704-437C-82A0-5BBF2B0D2B8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArbreSoft.DietManager.Tets", "test\ArbreSoft.DietManager.Tets\ArbreSoft.DietManager.Tets.csproj", "{0E817D4D-FC19-4FBD-A677-F871C1E04A91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,22 @@ Global
 		{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E817D4D-FC19-4FBD-A677-F871C1E04A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E817D4D-FC19-4FBD-A677-F871C1E04A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E817D4D-FC19-4FBD-A677-F871C1E04A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E817D4D-FC19-4FBD-A677-F871C1E04A91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{68121CF7-1693-4A16-8393-11258E76CC22} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{A45674C4-C62A-404B-B521-77D163A06B02} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{D4B568CA-BFDA-4AE8-BCD8-C6C55556532D} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{BF3B6441-29D7-40F7-881A-A30DBEE031C0} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{4F28B3CD-238C-428B-9DD9-72475464E5F6} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{2FEA30A9-AC9B-45E7-AEFB-6559C3C670B8} = {D6048018-A3CF-4137-BFEA-3EBD2845EA68}
+		{0E817D4D-FC19-4FBD-A677-F871C1E04A91} = {10F16AA3-7704-437C-82A0-5BBF2B0D2B8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5347EA72-B65C-4469-B5D6-E5D54EF04AEE}
