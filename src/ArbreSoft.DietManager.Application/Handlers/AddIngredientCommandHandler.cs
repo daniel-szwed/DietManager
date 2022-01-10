@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ArbreSoft.DietManager.Application.Handlers
 {
-    public class AddIngredientCommandHandler : IRequestHandler<AddIngredientCommand, Meal>
+    public class AddIngredientCommandHandler : IRequestHandler<AddIngredientCommand, Ingredient>
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -17,17 +17,16 @@ namespace ArbreSoft.DietManager.Application.Handlers
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Meal> Handle(AddIngredientCommand request, CancellationToken cancellationToken)
+        public async Task<Ingredient> Handle(AddIngredientCommand request, CancellationToken cancellationToken)
         {
             var mealReposotory = unitOfWork.Repository<Meal>();
             var mealId = new DbParamerer("Id", request.MealId);
-
-            var meal = (await mealReposotory.FromSqlRawAsync("SELECT * FROM NUTRITIONFACTS WHERE Id = @Id", nameof(Meal.Childrens), mealId)).FirstOrDefault();
-            meal.Childrens.Add(request.Ingredient);
+            var meals = await mealReposotory.FromSqlRawAsync("SELECT * FROM NUTRITIONFACTS WHERE Id = @Id", nameof(NutritionFact.Childrens), mealId);
+            meals.First().Childrens.Add(request.Ingredient);
 
             await unitOfWork.SaveChangesAsync();
 
-            return meal;
+            return request.Ingredient;
         }
     }
 }

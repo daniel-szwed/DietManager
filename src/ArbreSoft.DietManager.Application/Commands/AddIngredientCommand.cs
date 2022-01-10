@@ -4,7 +4,7 @@ using System;
 
 namespace ArbreSoft.DietManager.Application.Commands
 {
-    public class AddIngredientCommand : IRequest<Meal>
+    public class AddIngredientCommand : IRequest<Ingredient>
     {
         public AddIngredientCommand(Guid mealId, Ingredient ingredient)
         {

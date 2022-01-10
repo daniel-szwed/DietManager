@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ArbreSoft.DietManager.Application.Handlers
 {
-    public class RemoveIngredientCommandHandler : IRequestHandler<RemoveIngredientCommand, Meal>
+    public class RemoveIngredientCommandHandler : IRequestHandler<RemoveIngredientCommand>
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -17,15 +17,12 @@ namespace ArbreSoft.DietManager.Application.Handlers
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Meal> Handle(RemoveIngredientCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RemoveIngredientCommand request, CancellationToken cancellationToken)
         {
-            var mealId = new DbParamerer("MealId", request.MealId.ToString().ToUpper());
             var ingredientId = new DbParamerer("IngredientId", request.IngredientId.ToString().ToUpper());
-            var reposiotory = unitOfWork.Repository<Meal>();
-            await reposiotory.ExecuteNonQuery($@"DELETE FROM NUTRITIONFACTS WHERE ID = @IngredientId", ingredientId);
-            var meals = await reposiotory.FromSqlRawAsync($"SELECT * FROM NUTRITIONFACTS WHERE ID = @MealId", nameof(Meal.Childrens), mealId);
+            var reposiotory = unitOfWork.Repository<Ingredient>().ExecuteNonQuery("DELETE FROM NUTRITIONFACTS WHERE ID = @IngredientId", ingredientId);
 
-            return meals.FirstOrDefault();
+            return new Unit();
         }
     }
 }

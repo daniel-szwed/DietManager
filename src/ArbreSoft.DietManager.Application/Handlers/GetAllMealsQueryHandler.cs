@@ -21,7 +21,7 @@ namespace ArbreSoft.DietManager.Application.Handlers
         {
             return await unitOfWork
                 .Repository<Meal>()
-                .FromSqlRawAsync($"SELECT * FROM NUTRITIONFACTS WHERE TYPE = '{nameof(Meal)}'", nameof(Meal.Childrens));
+                .FromSqlRawAsync($"SELECT * FROM NUTRITIONFACTS WHERE TYPE = '{nameof(Meal)}'", nameof(NutritionFact.Childrens));
         }
     }
 }

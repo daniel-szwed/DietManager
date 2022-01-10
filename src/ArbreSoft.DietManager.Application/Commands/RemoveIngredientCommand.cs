@@ -4,15 +4,13 @@ using System;
 
 namespace ArbreSoft.DietManager.Application.Commands
 {
-    public class RemoveIngredientCommand : IRequest<Meal>
+    public class RemoveIngredientCommand : IRequest
     {
-        public RemoveIngredientCommand(Guid mealId, Guid ingredientId)
+        public RemoveIngredientCommand(Guid ingredientId)
         {
-            MealId = mealId;
             IngredientId = ingredientId;
         }
 
-        public Guid MealId { get; }
         public Guid IngredientId { get; }
     }
 }

@@ -2,6 +2,7 @@
 using ArbreSoft.DietManager.Domain;
 using ArbreSoft.DietManager.Domain.Repositories;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +19,10 @@ namespace ArbreSoft.DietManager.Application.Handlers
 
         public async Task<Meal> Handle(AddMealCommand request, CancellationToken cancellationToken)
         {
-            unitOfWork.Repository<Meal>().Add(request.Meal);
+            var dailyMenuId = new DbParamerer("Id", request.DailyMenuId);
+            var dailyMenus = await unitOfWork.Repository<DailyMenu>()
+                .FromSqlRawAsync("SELECT * FROM NUTRITIONFACTS WHERE Id = @Id", nameof(NutritionFact.Childrens), dailyMenuId);
+            dailyMenus.First().Childrens.Add(request.Meal);
             await unitOfWork.SaveChangesAsync();
 
             return request.Meal;

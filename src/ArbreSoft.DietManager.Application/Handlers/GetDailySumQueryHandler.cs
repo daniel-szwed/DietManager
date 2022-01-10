@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ArbreSoft.DietManager.Application.Handlers
 {
-    public class GetAllNutritionFactsQueryHandler : IRequestHandler<GetAllNutritionFactsQuery, IEnumerable<NutritionFact>>
+    public class GetDailySumQueryHandler : IRequestHandler<GetAllNutritionFactsQuery, IEnumerable<NutritionFact>>
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public GetAllNutritionFactsQueryHandler(IUnitOfWork unitOfWork)
+        public GetDailySumQueryHandler(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
