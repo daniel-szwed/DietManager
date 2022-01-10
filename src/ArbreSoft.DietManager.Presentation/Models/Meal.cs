@@ -9,7 +9,7 @@ namespace ArbreSoft.DietManager.Presentation.Models
 
         public Meal()
         {
-            Ingregients = new ObservableCollection<Ingredient>();
+            Childrens = new ObservableCollection<Ingredient>();
         }
 
         public Meal(string name) : this()
@@ -25,6 +25,6 @@ namespace ArbreSoft.DietManager.Presentation.Models
             set { _name = value; NotifyPropertyChanged(nameof(Name)); }
         }
 
-        public virtual ObservableCollection<Ingredient> Ingregients { get; set; }
+        public ObservableCollection<Ingredient> Childrens { get; set; }
     }
 }

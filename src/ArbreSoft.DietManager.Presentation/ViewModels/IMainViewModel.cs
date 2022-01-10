@@ -4,7 +4,7 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
 {
     public interface IMainViewModel
     {
-        ICommand ManageIngredients { get; }
+        ICommand BrowseNutritionFacts { get; }
         ICommand AddMeal { get; }
     }
 }

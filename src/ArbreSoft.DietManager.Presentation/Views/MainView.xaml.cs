@@ -29,9 +29,9 @@ namespace ArbreSoft.DietManager.Presentation.Views
             var vm = (MainViewModel)DataContext;
             var ingr = (Ingredient)((DockPanel)sender).DataContext;
             if (e.Delta > 0)
-                vm.IncreaseAmount(ingr);
+                vm.IncreaseAmountAsync(ingr);
             else
-                vm.DecreaseAmount(ingr);
+                vm.DecreaseAmountAsync(ingr);
         }
 
         private void IngredientsListBox_LostFocus(object sender, RoutedEventArgs e)

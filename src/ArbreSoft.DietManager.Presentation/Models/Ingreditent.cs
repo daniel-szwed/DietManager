@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArbreSoft.DietManager.Presentation.Models
+﻿namespace ArbreSoft.DietManager.Presentation.Models
 {
     public class Ingredient : NutritionFact
     {
@@ -12,24 +6,21 @@ namespace ArbreSoft.DietManager.Presentation.Models
 
         public Ingredient() { }
 
-        public Ingredient(NutritionFact ingredientBase)
+        public Ingredient(NutritionFact nutritionFact)
         {
-            Kcal = ingredientBase.Kcal;
-            Name = ingredientBase.Name;
-            Protein = ingredientBase.Protein;
-            Carbohydrates = ingredientBase.Carbohydrates;
-            Sugar = ingredientBase.Sugar;
-            Fat = ingredientBase.Fat;
-            Saturated = ingredientBase.Saturated;
+            Kcal = nutritionFact.Kcal;
+            Name = nutritionFact.Name;
+            Protein = nutritionFact.Protein;
+            Carbohydrates = nutritionFact.Carbohydrates;
+            Sugar = nutritionFact.Sugar;
+            Fat = nutritionFact.Fat;
+            Saturated = nutritionFact.Saturated;
         }
 
-        public float Amount
+        public float Weight
         {
             get { return _amount; }
-            set { _amount = value; NotifyPropertyChanged(nameof(Amount)); }
+            set { _amount = value; NotifyPropertyChanged(nameof(Weight)); }
         }
-
-        //[JsonIgnore]
-        public virtual Meal Meal { get; set; }
     }
 }

@@ -24,7 +24,7 @@
         public void Increase() => Weight++;
         public void Decrease() => Weight--;
 
-        public virtual NutritionFact Sum()
+        public override NutritionFact Sum()
         {
             var result = base.Sum();
 

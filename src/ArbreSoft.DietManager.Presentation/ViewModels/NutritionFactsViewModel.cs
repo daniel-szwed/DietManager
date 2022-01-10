@@ -7,7 +7,6 @@ using System.Windows.Input;
 using ArbreSoft.DietManager.Application.Commands;
 using ArbreSoft.DietManager.Application.Queries;
 using ArbreSoft.DietManager.Presentation.Commands;
-using ArbreSoft.DietManager.Presentation.Controls;
 using ArbreSoft.DietManager.Presentation.Models;
 using ArbreSoft.DietManager.Presentation.Views;
 using AutoMapper;
@@ -76,7 +75,8 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
         #region Command Implementation
         private void OnAdd()
         {
-            new AddNutritionFactView(Items).Show();
+            new AddNutritionFactView(Items).ShowDialog();
+            OnSearchQueryChanged(null, string.Empty);
         }
 
         private bool CanUpdate() => SelectedItem is not null;
