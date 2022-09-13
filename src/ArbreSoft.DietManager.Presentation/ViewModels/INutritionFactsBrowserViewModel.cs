@@ -1,9 +1,8 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace ArbreSoft.DietManager.Presentation.ViewModels
 {
-    public interface INutritionFactViewModel : IAddNutritionFactViewModel, IUpdateNutritionFactViewModel
+    public interface INutritionFactsBrowserViewModel
     {
         void OnSearchQueryChanged(object sender, string searchQuery);
         ICommand Remove { get; }

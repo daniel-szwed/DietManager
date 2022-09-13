@@ -1,0 +1,1 @@
+FOR /D /R . %%d IN (bin,obj,_TEMP,node_modules) DO @IF EXIST "%%d" rd /S /Q "%%d"

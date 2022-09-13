@@ -24,21 +24,6 @@ namespace ArbreSoft.DietManager.Presentation.Views
             ((TextBox)sender).Focus();
         }
 
-        private void Ammount_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            var vm = (MainViewModel)DataContext;
-            var ingr = (Ingredient)((DockPanel)sender).DataContext;
-            if (e.Delta > 0)
-                vm.IncreaseAmountAsync(ingr);
-            else
-                vm.DecreaseAmountAsync(ingr);
-        }
-
-        private void IngredientsListBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            ((ListBox)sender).SelectedItem = null;
-        }
-
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();

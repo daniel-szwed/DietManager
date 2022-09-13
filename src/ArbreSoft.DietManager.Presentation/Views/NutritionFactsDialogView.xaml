@@ -1,0 +1,74 @@
+﻿<Window 
+    x:Class="ArbreSoft.DietManager.Presentation.Views.NutritionFactDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:ArbreSoft.DietManager.Presentation.Views"
+    xmlns:input="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Input"
+    xmlns:button="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Button"
+    xmlns:converters="clr-namespace:ArbreSoft.DietManager.Presentation.Converters" 
+    xmlns:viewmodels="clr-namespace:ArbreSoft.DietManager.Presentation.ViewModels" 
+    d:DataContext="{d:DesignInstance Type=viewmodels:INutritionFactsDialogViewModel}"
+    Name="NutritionDialog"
+    mc:Ignorable="d"
+    ResizeMode="NoResize"
+    Title="Nutrition Fact" 
+    SizeToContent="Height"
+    Width="300">
+    <Window.Resources>
+        <converters:SubstringConverter x:Key="substringConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel  
+            Grid.Row="0">
+            <input:StringInput 
+                Label="Nazwa" 
+                Value="{Binding NutritionFact.Name, Mode=TwoWay}" 
+                Validators="{Binding NameValidators}"
+                x:Name="newIngrName"/>
+            <input:StringInput 
+                Label="Kcal" 
+                Value="{Binding NutritionFact.Kcal, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrKcal"/>
+            <input:StringInput 
+                Label="Białko" 
+                Value="{Binding NutritionFact.Protein, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrProt"/>
+            <input:StringInput 
+                Label="Węglowodany" 
+                Value="{Binding NutritionFact.Carbohydrates, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrCarb"/>
+            <input:StringInput 
+                Label="w tym cukry" 
+                Value="{Binding NutritionFact.Sugar, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrSugar"/>
+            <input:StringInput 
+                Label="Tłuszcze" 
+                Value="{Binding NutritionFact.Fat, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrFat"/>
+            <input:StringInput 
+                Label="w tym nasycone kwasy tłuszczowe" 
+                Value="{Binding NutritionFact.Saturated, Mode=TwoWay}" 
+                Validators="{Binding FloatValidators}"
+                x:Name="newIngrSat"/>
+
+        </StackPanel>
+        <button:PrimaryButton Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"                
+            Background="ForestGreen"
+            ButtonIcon="PlusIcon"
+            ButtonText="{Binding SubmitButtonText}" 
+            ClickCommand="{Binding Path=Submit}"/>
+    </Grid>
+</Window>

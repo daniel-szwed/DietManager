@@ -9,12 +9,13 @@ using AutoMapper;
 using System.Threading.Tasks;
 using ArbreSoft.DietManager.Application.Queries;
 using System.ComponentModel;
+using System;
 
 namespace ArbreSoft.DietManager.Presentation.ViewModels
 {
     public class MainViewModel : IMainViewModel, INotifyPropertyChanged
     {
-        private readonly IMediator mediator;
+        public IMediator Mediator { get; init; }
         private readonly IMapper mapper;
 
         private Models.Ingredient selectedIngredient;
@@ -24,17 +25,17 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public MainViewModel(IMediator mediator, IMapper mapper)
         {
-            this.mediator = mediator;
+            Mediator = mediator;
             this.mapper = mapper;
             InitAsync().GetAwaiter().GetResult();
         }
 
         private async Task InitAsync()
         {
-            var dailyMenus = await mediator.Send(new GetAllDailyMenuQuery());
+            var dailyMenus = await Mediator.Send(new GetAllDailyMenuQuery());
             if (!dailyMenus.Any())
             {
-                var dailyMenu = await mediator.Send(new AddDailyMenuCommand());
+                var dailyMenu = await Mediator.Send(new AddDailyMenuCommand());
                 DailyMenu = mapper.Map<Models.DailyMenu>(dailyMenu);
             }
             else
@@ -97,12 +98,7 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
 
         public ICommand AddMeal
         {
-            get { return new Command(parameters => OnAddMeal(parameters)); }
-        }
-
-        public ICommand RemoveMeal
-        {
-            get { return new Command(async parameters => await OnRemoveMealAsync(parameters)); }
+            get { return new Command(parameters => OnAddMealAsync(parameters)); }
         }
 
         public ICommand AddIngredient
@@ -138,26 +134,18 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
 
         private void OnManageIngredients(object parameters)
         {
-            new NutritionFactView().Show();
+            new NutritionFactsBrowserView().Show();
         }
        
-        private async void OnAddMeal(object p)
+        private async void OnAddMealAsync(object p)
         {
             var dialog = new InputDialog("Diet Manager", "Meal name");
             if (dialog.ShowDialog() == true)
             {
                 var meal = new Models.Meal(dialog.ResponseText);
-                var mealWithId = await mediator.Send(new AddMealCommand(DailyMenu.Id, mapper.Map<Domain.Meal>(meal)));
+                var mealWithId = await Mediator.Send(new AddMealCommand(DailyMenu.Id, mapper.Map<Domain.Meal>(meal)));
                 DailyMenu.Childrens.Add(mapper.Map<Models.Meal>(mealWithId));
             }
-        }
-
-        private async Task OnRemoveMealAsync(object p)
-        {
-            Models.Meal meal = DailyMenu.Childrens.First(x => x.Id == (p as Models.Meal).Id);
-            await mediator.Send(new RemoveMealCommand(meal.Id));
-            DailyMenu.Childrens.Remove(meal);
-            await CalcTotalNutritionFactAsync ();
         }
 
         private bool CanAddIngredient(object p)
@@ -176,7 +164,7 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
             var meal = param[0] as Models.Meal;
             var ingredient = new Models.Ingredient(param[1] as Models.NutritionFact);
             ingredient.Weight = float.Parse(param[2] as string);
-            await mediator.Send(new AddIngredientCommand(meal.Id, mapper.Map<Domain.Ingredient>(ingredient)));
+            await Mediator.Send(new AddIngredientCommand(meal.Id, mapper.Map<Domain.Ingredient>(ingredient)));
             meal.Childrens.Add(ingredient);
             await CalcTotalNutritionFactAsync();
         }
@@ -195,7 +183,7 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
             var param = p as object[];
             var meal = param[0] as Models.Meal;
             var ingredient = param[1] as Models.Ingredient;
-            await mediator.Send(new RemoveIngredientCommand(ingredient.Id));
+            await Mediator.Send(new RemoveIngredientCommand(ingredient.Id));
             meal.Childrens.Remove(ingredient);
             await CalcTotalNutritionFactAsync ();
         }
@@ -203,27 +191,27 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
 
         private async Task<IEnumerable<Models.NutritionFact>> GetIngredientsAsync()
         {
-            var nutritionFacts = await mediator.Send(new GetAllNutritionFactsQuery());
+            var nutritionFacts = await Mediator.Send(new GetAllNutritionFactsQuery());
 
             return mapper.Map<IEnumerable<Models.NutritionFact>>(nutritionFacts);
         }
 
         private async Task CalcTotalNutritionFactAsync()
         {
-            var totalNutritionFact = await mediator.Send(new GetDailySumQuery(DailyMenu.Id));
+            var totalNutritionFact = await Mediator.Send(new GetDailySumQuery(DailyMenu.Id));
             TotalNutritionFacts = mapper.Map<Models.NutritionFact>(totalNutritionFact);
         }
 
         internal async Task IncreaseAmountAsync(Models.Ingredient ingredient)
         {
-            await mediator.Send(new UpdateIngredientWeightCommand(ingredient.Id, +1));
+            await Mediator.Send(new UpdateIngredientWeightCommand(ingredient.Id, +1));
             ingredient.Weight++;
             await CalcTotalNutritionFactAsync();
         }
 
         internal async Task DecreaseAmountAsync(Models.Ingredient ingredient)
         {
-            await mediator.Send(new UpdateIngredientWeightCommand(ingredient.Id, -1));
+            await Mediator.Send(new UpdateIngredientWeightCommand(ingredient.Id, -1));
             ingredient.Weight--;
             await CalcTotalNutritionFactAsync();
         }

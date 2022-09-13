@@ -5,12 +5,12 @@ namespace ArbreSoft.DietManager.Presentation.Models
     public class NutritionFact : BindableBase
     {
         protected string _name;
-        protected float _kcal;
-        protected float _protein;
-        protected float _carbohydrates;
-        protected float _sugar;
-        protected float _fat;
-        protected float _saturated;
+        protected string _kcal;
+        protected string _protein;
+        protected string _carbohydrates;
+        protected string _sugar;
+        protected string _fat;
+        protected string _saturated;
 
         public Guid Id { get; set; }
 
@@ -20,37 +20,37 @@ namespace ArbreSoft.DietManager.Presentation.Models
             set { _name = value; NotifyPropertyChanged(nameof(Name)); }
         }
 
-        public float Kcal
+        public string Kcal
         {
             get { return _kcal; }
             set { _kcal = value; NotifyPropertyChanged(nameof(Kcal)); }
         }
 
-        public float Protein
+        public string Protein
         {
             get { return _protein; }
             set { _protein = value; NotifyPropertyChanged(nameof(Protein)); }
         }
 
-        public float Carbohydrates
+        public string Carbohydrates
         {
             get { return _carbohydrates; }
             set { _carbohydrates = value; NotifyPropertyChanged(nameof(Carbohydrates)); }
         }
 
-        public float Sugar
+        public string Sugar
         {
             get { return _sugar; }
             set { _sugar = value; NotifyPropertyChanged(nameof(Sugar)); }
         }
 
-        public float Fat
+        public string Fat
         {
             get { return _fat; }
             set { _fat = value; NotifyPropertyChanged(nameof(Fat)); }
         }
 
-        public float Saturated
+        public string Saturated
         {
             get { return _saturated; }
             set { _saturated = value; NotifyPropertyChanged(nameof(Saturated)); }

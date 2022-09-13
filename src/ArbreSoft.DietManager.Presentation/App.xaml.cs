@@ -6,8 +6,10 @@ using ArbreSoft.DietManager.Presentation.Views;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Data;
 
 namespace ArbreSoft.DietManager.Presentation
 {
@@ -27,12 +29,27 @@ namespace ArbreSoft.DietManager.Presentation
                 .AddMediatR(applicationAssembly)
                 .AddSingleton<IUnitOfWork, UnitOfWork>()
                 .AddTransient<IMainViewModel, MainViewModel>()
-                .AddTransient<INutritionFactViewModel, NutritionFactsViewModel>()
-                .AddTransient<IAddNutritionFactViewModel, AddNutritionFactViewModel>();
+                .AddTransient<INutritionFactsDialogViewModel, NutritionFactsDialogViewModel>()
+                .AddTransient<INutritionFactsBrowserViewModel, NutritionFactsBrowserViewModel>();
                 
             provider.GetService<AppDbContext>().Migrate();
 
+            LoadConverters();
+
             new MainView().Show();
         }
+
+        private void LoadConverters()
+        {
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (type.GetInterfaces().Any(i => ConverterInterfaces.Any(name => i.Name == name)))
+                {
+                    Resources.Add(type.Name, Activator.CreateInstance(type));
+                }
+            }
+        }
+
+        private string[] ConverterInterfaces = new[] { nameof(IValueConverter), nameof(IMultiValueConverter) };
     }
 }

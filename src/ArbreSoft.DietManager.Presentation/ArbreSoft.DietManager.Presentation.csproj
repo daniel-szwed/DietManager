@@ -2,40 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\refresh.png" />
-    <None Remove="Resources\remove.png" />
-    <None Remove="Resources\search.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ArbreSoft.DietManager.Infrastructure\ArbreSoft.DietManager.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\refresh.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\remove.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\search.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Controls\FloatInput.xaml">
+    <Page Update="Controls\Input\FloatInput.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\StringInput.xaml">
+    <Page Update="Controls\Input\StringInput.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\NutritionFactView.xaml">
+    <Page Update="Views\NutritionFactsBrowserView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Views\MainView.xaml">

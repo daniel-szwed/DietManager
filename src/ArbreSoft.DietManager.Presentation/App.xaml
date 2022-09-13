@@ -4,7 +4,12 @@
              xmlns:local="clr-namespace:ArbreSoft.DietManager.Presentation" 
              xmlns:converters="clr-namespace:ArbreSoft.DietManager.Presentation.Converters">
     <Application.Resources>
-        <converters:DefaultMultiValueConverter x:Key="DefaultMultiValueConverter"/>
-        <converters:FloatConverter x:Key="FloatConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary 
+                    x:Name="IconsDictionary" 
+                    Source="pack://application:,,,/ArbreSoft.DietManager.Presentation;component/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

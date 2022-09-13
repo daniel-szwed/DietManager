@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:ArbreSoft.DietManager.Presentation.Controls"
+        xmlns:input="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Input"
+        xmlns:custom="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Custom"
         mc:Ignorable="d"
-        Title="MainView" Height="450" Width="750">
-    <Window.Resources>
-        <BitmapImage x:Key="refreshImg" UriSource="/ArbreSoft.DietManager.Presentation;component/Resources/refresh.png"/>
-        <BitmapImage x:Key="removeImg" UriSource="/ArbreSoft.DietManager.Presentation;component/Resources/remove.png"/>
-    </Window.Resources>
+        Name="MainWindow"
+        Title="MainView" 
+        SizeToContent="Height"
+        Width="750">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -28,74 +28,42 @@
             </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition ></ColumnDefinition>
-                    <ColumnDefinition Width="302"></ColumnDefinition>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="270"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Column="0" Grid.RowSpan="2">
-                    <Button Background="ForestGreen" Foreground="White"
-                        Command="{Binding AddMeal}" CommandParameter="{Binding Text, ElementName=newMealInput}">
+                <StackPanel 
+                    Grid.Column="0">
+                    <Button 
+                        Background="ForestGreen" 
+                        Foreground="White"
+                        Command="{Binding AddMeal}" 
+                        CommandParameter="{Binding Text, ElementName=newMealInput}">
                         <TextBlock >
                             <Bold>Add Meal</Bold>
                         </TextBlock>
                     </Button>
-                    <ListBox  ItemsSource="{Binding DailyMenu.Childrens}" SelectedItem="{Binding SelectedMeal}" Name="MealsListBox" >
+                    <ListBox ItemsSource="{Binding DailyMenu.Childrens}" SelectedItem="{Binding SelectedMeal}" Name="MealsListBox" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <DockPanel Width="auto">
-                                    <StackPanel>
-                                        <controls:StringInput Label="Nazwa" Text="{Binding Name}"/>
-                                        <ListBox ItemsSource="{Binding Childrens}" SelectedItem="{Binding DataContext.SelectedIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Name="IngredientsListBox" LostFocus="IngredientsListBox_LostFocus">
-                                            <ListBox.ItemTemplate>
-                                                <ItemContainerTemplate>
-                                                    <DockPanel Width="275" MouseWheel="Ammount_MouseWheel" >
-                                                        <TextBox Text="{Binding Name}" IsEnabled="False"/>
-                                                        <TextBox Text="{Binding Weight}" IsEnabled="False" />
-                                                        <Button HorizontalAlignment="Right" Background="Red" Foreground="White"
-                                                            Command="{Binding Path=DataContext.RemoveIngredient, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" UseLayoutRounding="False">
-                                                            <TextBlock >
-                                                            <Bold>&#160; X &#160;</Bold>
-                                                            </TextBlock>
-                                                            <Button.CommandParameter>
-                                                                <MultiBinding Converter="{StaticResource DefaultMultiValueConverter}">
-                                                                    <Binding Path="SelectedItem" ElementName="MealsListBox"></Binding>
-                                                                    <Binding></Binding>
-                                                                </MultiBinding>
-                                                            </Button.CommandParameter>
-                                                        </Button>
-                                                    </DockPanel>
-                                                </ItemContainerTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </StackPanel>
-                                    <Button DockPanel.Dock="Right" Margin="10,0" Height="26" VerticalAlignment="Top" Background="PaleVioletRed" Foreground="White"
-                                            Command="{Binding Path=DataContext.RemoveMeal, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
-                                            CommandParameter="{Binding}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock >
-                                                <Bold>&#160; Usuń posiłek &#160;</Bold>
-                                            </TextBlock>
-                                            <!--<Image Source="{StaticResource ResourceKey=removeImg}" Width="20"/>-->
-                                        </StackPanel>
-                                    </Button>
-                                </DockPanel>
+                                <custom:MealsList
+                                    Meals="{Binding ItemsSource, ElementName=MealsListBox, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedMeal="{Binding SelectedItem, ElementName=MealsListBox}"
+                                    Meal="{Binding}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
-
-
-                <GroupBox Grid.Column="1" Grid.Row="2" Header="Suma wartości odżywczych">
+                <GroupBox Grid.Column="1" Grid.Row="0" Header="Suma wartości odżywczych">
                     <StackPanel>
-                        <controls:StringInput Label="Kcal" Text="{Binding TotalNutritionFacts.Kcal, Mode=TwoWay}"/>
-                        <controls:StringInput Label="Białko" Text="{Binding TotalNutritionFacts.Protein, Mode=TwoWay}"/>
-                        <controls:StringInput Label="Węglowodany" Text="{Binding TotalNutritionFacts.Carbohydrates, Mode=TwoWay}"/>
-                        <controls:StringInput Label="w tym cukry" Text="{Binding TotalNutritionFacts.Sugar, Mode=TwoWay}"/>
-                        <controls:StringInput Label="Tłuszcze" Text="{Binding TotalNutritionFacts.Fat, Mode=TwoWay}"/>
-                        <controls:StringInput Label="w tym nasycone &#x0a;kwasy tłuszczowe" Text="{Binding TotalNutritionFacts.Saturated, Mode=TwoWay}"/>
+                        <input:StringInput Label="Kcal" Value="{Binding TotalNutritionFacts.Kcal, Mode=TwoWay}"/>
+                        <input:StringInput Label="Białko" Value="{Binding TotalNutritionFacts.Protein, Mode=TwoWay}"/>
+                        <input:StringInput Label="Węglowodany" Value="{Binding TotalNutritionFacts.Carbohydrates, Mode=TwoWay}"/>
+                        <input:StringInput Label="w tym cukry" Value="{Binding TotalNutritionFacts.Sugar, Mode=TwoWay}"/>
+                        <input:StringInput Label="Tłuszcze" Value="{Binding TotalNutritionFacts.Fat, Mode=TwoWay}"/>
+                        <input:StringInput Label="w tym nasycone kwasy tłuszczowe" Value="{Binding TotalNutritionFacts.Saturated, Mode=TwoWay}"/>
                     </StackPanel>
                 </GroupBox>
             </Grid>
