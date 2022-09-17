@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,19 +15,18 @@ using MediatR;
 
 namespace ArbreSoft.DietManager.Presentation.ViewModels
 {
-    public class NutritionFactsBrowserViewModel : INutritionFactsBrowserViewModel
+    public class NutritionFactsBrowserViewModel : BindableBase, INutritionFactsBrowserViewModel
     {
         private readonly IMediator mediator;
         private readonly IMapper mapper;
-        private string _searchQuery;
-        private string _query;
+        private string _query = string.Empty;
+        private NutritionFact _selectedItem;
 
         public NutritionFactsBrowserViewModel(IMediator mediator, IMapper mapper)
         {
             this.mediator = mediator;
             this.mapper = mapper;
             Items = new ObservableCollection<NutritionFact>();
-            Filtered = new ObservableCollection<NutritionFact>();
             InitAsync().GetAwaiter().GetResult();
         }
 
@@ -36,33 +36,29 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
             foreach (var nutritionFact in nutritionFacts)
             {
                 Items.Add(mapper.Map<NutritionFact>(nutritionFact));
-                Filtered.Add(mapper.Map<NutritionFact>(nutritionFact));
             }
         }
 
         public ObservableCollection<NutritionFact> Items { get; set; }
-        public ObservableCollection<NutritionFact> Filtered { get; set; }
+        public IEnumerable<NutritionFact> Filtered => Items.Where(item => item.Name.Contains(_query, StringComparison.OrdinalIgnoreCase));
 
-        public NutritionFact SelectedItem { get; set; }
+        public NutritionFact SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (_selectedItem != value)
+                {
+                    _selectedItem = value;
+                    NotifyPropertyChanged(nameof(SelectedItem));
+                }
+            }
+        }
 
         public void OnSearchQueryChanged(object sender, string searchQuery)
         {
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                Filtered.Clear();
-                foreach (var item in Items.Where(item => item.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)))
-                {
-                    Filtered.Add(item);
-                }
-            }
-            else
-            {
-                Filtered.Clear();
-                foreach (var item in Items)
-                {
-                    Filtered.Add(item);
-                }
-            }
+            _query = searchQuery;
+            NotifyPropertyChanged(nameof(Filtered));
         }
 
         #region Commands
@@ -76,14 +72,17 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
         private void OnAdd()
         {
             new NutritionFactDialogView(Items).ShowDialog();
-            OnSearchQueryChanged(null, string.Empty);
+            NotifyPropertyChanged(nameof(Filtered));
         }
 
         private bool CanUpdate() => SelectedItem is not null;
 
         private void OnUpdate()
         {
-            new NutritionFactDialogView(Items, SelectedItem).Show();
+            new NutritionFactDialogView(Items, SelectedItem).ShowDialog();
+            var selectedId = SelectedItem.Id;
+            NotifyPropertyChanged(nameof(Filtered));
+            SelectedItem = Filtered.FirstOrDefault(item => item.Id == selectedId);
         }
 
         private async void OnRemoveAsync(object obj)
@@ -101,8 +100,6 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
             //Ingredient = await _ingredientService.SearchIngredientAsync(name);
             sender.MoveFocus(new TraversalRequest(FocusNavigationDirection.Left));
         }
-
-
         #endregion
     }
 }

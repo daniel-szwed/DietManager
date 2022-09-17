@@ -1,5 +1,6 @@
 ﻿using ArbreSoft.DietManager.Infrastructure;
 using ArbreSoft.DietManager.Presentation.ViewModels;
+using ArbreSoft.Utils.ObjectExtensions;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -15,7 +16,7 @@ namespace ArbreSoft.DietManager.Presentation.Views
             InitializeComponent();
             DataContext = AppServiceProvider.Instance.GetService<INutritionFactsDialogViewModel>();
             (DataContext as INutritionFactsDialogViewModel).Items = items;
-            (DataContext as INutritionFactsDialogViewModel).NutritionFact = selectedItem;
+            (DataContext as INutritionFactsDialogViewModel).NutritionFact = selectedItem.Clone();
         }
     }
 }

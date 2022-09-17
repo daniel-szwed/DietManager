@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArbreSoft.DietManager.Infrastructure\ArbreSoft.DietManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\Utils\ArbreSoft.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

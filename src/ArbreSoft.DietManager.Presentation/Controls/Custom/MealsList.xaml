@@ -52,9 +52,10 @@
         <StackPanel Grid.Column="1">
             <button:PrimaryButton 
                 Background="PaleVioletRed" 
-                ButtonText="Usuń posiłek"
-                ButtonIcon="DeleteIcon"
-                Click="OnRemoveMealClick"/>
+                Click="OnRemoveMealClick"
+                Icon="DeleteIcon"
+                Text="Usuń posiłek"
+                />
         </StackPanel>
 
         <!--<StackPanel 

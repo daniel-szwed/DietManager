@@ -5,36 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArbreSoft.DietManager.Presentation.Views"
         xmlns:viewmodels="clr-namespace:ArbreSoft.DietManager.Presentation.ViewModels"
-        xmlns:custom="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Input"
+        d:DataContext="{d:DesignInstance Type=viewmodels:INutritionFactsBrowserViewModel}"
+        xmlns:input="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Input"
+        xmlns:button="clr-namespace:ArbreSoft.DietManager.Presentation.Controls.Button"
         mc:Ignorable="d"
-        Title="Nutrition Facts" Height="500" Width="500">
+        Title="Nutrition Facts" 
+        SizeToContent="Height" 
+        Width="515">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="55"></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
             Orientation="Horizontal"
             FlowDirection="LeftToRight"
             Margin="0 5 0 5">
-            <custom:SearchTextBox 
+            <input:SearchTextBox 
                 QueryChanged="SearchQuery_TextChanged"
                 Margin="10 0 10 0"/>
-            <Button 
+            <button:PrimaryButton 
                 Background="ForestGreen"
-                Foreground="White"
                 Command="{Binding Add}"
-                Margin="10 0 10 0">
-                    Add
-            </Button>
-            <Button 
-                Background="ForestGreen"
                 Foreground="White"
+                Icon="PlusIcon"
+                Margin="10 0 10 0"
+                Text="Dodaj składnik">
+            </button:PrimaryButton>
+            <button:PrimaryButton 
+                Background="ForestGreen"
                 Command="{Binding Update}"
-                Margin="10 0 10 0">
-                Edit
-            </Button>
+                Foreground="White"
+                Icon="UpdateIcon"
+                Margin="10 0 10 0"
+                Text="Edytuj">
+            </button:PrimaryButton>
         </StackPanel>
         
         <DataGrid 
@@ -55,6 +61,5 @@
                 <DataGridTextColumn Header="w tym nasycone &#x0a; kwasy tłuszczowe" Binding="{Binding Saturated}"/>
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Window>

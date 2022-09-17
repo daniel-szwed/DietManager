@@ -63,12 +63,12 @@
                 x:Name="newIngrSat"/>
 
         </StackPanel>
-        <button:PrimaryButton Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"                
+        <button:PrimaryButton 
             Background="ForestGreen"
-            ButtonIcon="PlusIcon"
-            ButtonText="{Binding SubmitButtonText}" 
-            ClickCommand="{Binding Path=Submit}"/>
+            Command="{Binding Path=Submit}"
+            Grid.Row="1"
+            Icon="{Binding ButtonIcon}"
+            Text="{Binding ButtonText}" 
+            />
     </Grid>
 </Window>

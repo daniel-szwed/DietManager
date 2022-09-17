@@ -19,23 +19,23 @@ namespace ArbreSoft.DietManager.Presentation.Controls.Button
         }
 
         public static DependencyProperty TextProperty = 
-            DependencyProperty.Register(nameof(ButtonText), typeof(string), typeof(PrimaryButton), new FrameworkPropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(PrimaryButton), new FrameworkPropertyMetadata(string.Empty));
         public static DependencyProperty IconProperty =
-            DependencyProperty.Register(nameof(ButtonIcon), typeof(string), typeof(PrimaryButton), new FrameworkPropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Icon), typeof(string), typeof(PrimaryButton), new FrameworkPropertyMetadata(string.Empty));
         public static DependencyProperty IconVisibilityProperty =
             DependencyProperty.Register(nameof(IconVisibility), typeof(Visibility), typeof(PrimaryButton), new FrameworkPropertyMetadata(Visibility.Visible));
         public static DependencyProperty IconSizeProperty =
             DependencyProperty.Register(nameof(IconSize), typeof(int), typeof(PrimaryButton), new FrameworkPropertyMetadata(24));
         public static DependencyProperty ClickCommandProperty =
-            DependencyProperty.Register(nameof(ClickCommand), typeof(ICommand), typeof(PrimaryButton), new FrameworkPropertyMetadata(default(ICommand)));
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(PrimaryButton), new FrameworkPropertyMetadata(default(ICommand)));
 
-        public string ButtonText
+        public string Text
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
 
-        public string ButtonIcon
+        public string Icon
         {
             get => (string)(GetValue(IconProperty));
             set
@@ -76,7 +76,7 @@ namespace ArbreSoft.DietManager.Presentation.Controls.Button
             }
         }
 
-        public ICommand ClickCommand
+        public ICommand Command
         {
             get => (ICommand)GetValue(ClickCommandProperty);
             set => SetValue(ClickCommandProperty, value);

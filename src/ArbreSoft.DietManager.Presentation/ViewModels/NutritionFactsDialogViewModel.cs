@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -29,7 +30,6 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
         }
 
         public ObservableCollection<Models.NutritionFact> Items { get; set; }
-
         public Models.NutritionFact NutritionFact
         {
             get => _nutritionFact;
@@ -42,26 +42,13 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
                 }
             }
         }
-
         public IEnumerable<IValidator> NameValidators => _nameValidators;
         public IEnumerable<IValidator> FloatValidators => _floatValidators;
         public ICommand Submit => GetSubmitCommand();
 
-        private ICommand GetSubmitCommand()
-        {
-            if (NutritionFact is null)
-            {
-                NutritionFact = new();
-
-                return Add;
-            }
-            else
-            {
-                return Update;
-            }
-        }
-
         public string ButtonText => NutritionFact is null ? "Add" : "Update";
+
+        public string ButtonIcon => NutritionFact is null ? "PlusIcon" : "UpdateIcon";
 
         #region Commands
         public ICommand Add => new Command(parameters => OnAdd(parameters), parameters => CanAdd(parameters));
@@ -81,10 +68,33 @@ namespace ArbreSoft.DietManager.Presentation.ViewModels
 
         private async Task OnUpdateAsync(object parameters)
         {
-            await mediator.Send(new UpdateNutritionFactCommand(mapper.Map<Domain.NutritionFact>(NutritionFact)));
+            var updated = await mediator.Send(new UpdateNutritionFactCommand(mapper.Map<Domain.NutritionFact>(NutritionFact)));
+            var source = Items.FirstOrDefault(nf => nf.Id == NutritionFact.Id);
+            var indexToRefresh = Items.IndexOf(source);
+            if (indexToRefresh != -1)
+            {
+                //Items.RemoveAt(indexToRefresh);
+                //Items.Insert(indexToRefresh, NutritionFact);
+                Items[indexToRefresh] = NutritionFact;
+            }
+
             Close();
         }
         #endregion
+
+        private ICommand GetSubmitCommand()
+        {
+            if (NutritionFact is null)
+            {
+                NutritionFact = new();
+
+                return Add;
+            }
+            else
+            {
+                return Update;
+            }
+        }
 
         private void Close()
         {
